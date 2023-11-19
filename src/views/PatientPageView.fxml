@@ -22,7 +22,7 @@
         <Image url="@../../images/patient_page_view.png" />
       </image>
     </ImageView>
-    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="102.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="102.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToManageProfilePage">
       <image>
         <Image url="@../../images/manage_profile.png" />
       </image>

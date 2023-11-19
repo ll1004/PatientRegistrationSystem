@@ -2,6 +2,7 @@ package application;
 	
 import controllers.HomeScreenController;
 import controllers.PatientLoginController;
+import controllers.PatientManageProfileController;
 import controllers.PatientPageController;
 import controllers.PatientRegisterController;
 import javafx.application.Application;
@@ -42,6 +43,10 @@ public class Main extends Application {
 			PatientPageController patientPageController = new PatientPageController();
 			PatientPageController.controller = patientPageController;
 			patientPageController.initScene();
+			
+			PatientManageProfileController patientManageProfileController = new PatientManageProfileController();
+			PatientManageProfileController.controller = patientManageProfileController;
+			patientManageProfileController.initScene();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

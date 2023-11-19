@@ -128,6 +128,7 @@ public class DaoModel {
 			rs = pstmt.executeQuery();
 			flag = rs.next();
 			String id=rs.getObject("id").toString();
+			String password=rs.getObject("password").toString();
 			String username=rs.getObject("username").toString();
 			int age=Integer.parseInt(rs.getObject("age").toString());
 			String sex=rs.getObject("sex").toString();
@@ -140,6 +141,7 @@ public class DaoModel {
 			PatientModel patient = new PatientModel();
 			patient.setId(id);
 			patient.setUsername(username);
+			patient.setPassword(password);
 			patient.setAge(age);
 			patient.setSex(sex);
 			patient.setPhone(phone);
@@ -180,6 +182,37 @@ public class DaoModel {
 			pstmt.setString(10, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
 			pstmt.executeUpdate();
 			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean updatePatient(PatientModel user) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Updating Patient into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "UPDATE patient_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "+Integer.parseInt(user.getId());
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, user.getPassword());
+			pstmt.setInt(3, user.getAge());
+			pstmt.setString(4, user.getSex());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setString(6, user.getEmail());
+			pstmt.setString(7, user.getCity());
+			pstmt.setString(8, user.getState());
+			pstmt.setString(9, user.getPincode());
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(10, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+			pstmt.executeUpdate();
+			conn.close();
+			PatientModel.user = user;
 			return true;
 		} catch (SQLException se) {
 			se.printStackTrace();
