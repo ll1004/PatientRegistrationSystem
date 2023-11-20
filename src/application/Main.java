@@ -1,6 +1,7 @@
 package application;
-	
+
 import controllers.HomeScreenController;
+import controllers.PatientAddRegistrationController;
 import controllers.PatientLoginController;
 import controllers.PatientManageProfileController;
 import controllers.PatientPageController;
@@ -11,9 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import models.DaoModel;
 
-
 public class Main extends Application {
 	public static Stage stage;
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -26,32 +27,31 @@ public class Main extends Application {
 			stage = primaryStage;
 			DaoModel dao = new DaoModel();
 			DaoModel.dao = dao;
-			//Note, every controller should be registered here to keep a unique instance;
+			// Note, every controller should be registered here to keep a unique instance;
 			HomeScreenController homeScreenController = new HomeScreenController();
 			HomeScreenController.controller = homeScreenController;
 			homeScreenController.initScene();
 			homeScreenController.showScene();
-			
+
 			PatientLoginController patientLoginController = new PatientLoginController();
 			PatientLoginController.controller = patientLoginController;
-			patientLoginController.initScene();
-			
+
 			PatientRegisterController patientRegisterController = new PatientRegisterController();
 			PatientRegisterController.controller = patientRegisterController;
-			patientRegisterController.initScene();
-			
+
 			PatientPageController patientPageController = new PatientPageController();
 			PatientPageController.controller = patientPageController;
-			patientPageController.initScene();
-			
+
 			PatientManageProfileController patientManageProfileController = new PatientManageProfileController();
 			PatientManageProfileController.controller = patientManageProfileController;
-			patientManageProfileController.initScene();
-		} catch(Exception e) {
+
+			PatientAddRegistrationController patientAddRegistrationController = new PatientAddRegistrationController();
+			PatientAddRegistrationController.controller = patientAddRegistrationController;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}

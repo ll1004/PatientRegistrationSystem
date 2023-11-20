@@ -17,11 +17,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DatePicker;
 import models.DaoModel;
 import models.PatientModel;
 
-public class PatientManageProfileController implements Initializable{
+public class PatientManageProfileController implements Initializable {
 	// The title of current page
 	static final String TITLE = "Patient Profile Management";
 	static final String FXM_URL = "/views/PatientManageProfileView.fxml";
@@ -30,10 +32,10 @@ public class PatientManageProfileController implements Initializable{
 	static Scene scene = null;
 	// The unique instance of the current controller to implement page switching
 	public static PatientManageProfileController controller = null;
-	
+
 	@FXML
 	private TextField username;
-	
+
 	@FXML
 	private PasswordField password;
 
@@ -63,7 +65,7 @@ public class PatientManageProfileController implements Initializable{
 
 	@FXML
 	private RadioButton radioMale;
-	
+
 	@FXML
 	private RadioButton radioFemale;
 
@@ -71,9 +73,8 @@ public class PatientManageProfileController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		renderPatientInfo();
-		System.out.println("manage init");
 	}
-	
+
 	public boolean initScene() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(FXM_URL));
@@ -90,16 +91,14 @@ public class PatientManageProfileController implements Initializable{
 		if (Main.stage == null || root == null) {
 			return false;
 		}
-		if (scene == null) {
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
-		}
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
 		Main.stage.setScene(scene);
 		Main.stage.setTitle(TITLE);
 		Main.stage.show();
 		return true;
 	}
-	
+
 	public static boolean validateAge(String s) {
 		boolean flag = false;
 		if (s != null) {
@@ -123,32 +122,30 @@ public class PatientManageProfileController implements Initializable{
 		}
 		return flag;
 	}
-	
-	public void renderPatientInfo(){
-		if(PatientModel.user==null) {
+
+	public void renderPatientInfo() {
+		if (PatientModel.user == null) {
 			return;
 		}
-		this.labelError.setText(null);
-		this.username.setText(PatientModel.user.getUsername());
-		System.out.println(PatientModel.user.getUsername());
-		this.password.setText(PatientModel.user.getPassword());
-		this.age.setText(PatientModel.user.getAge()+"");
-		this.phone.setText(PatientModel.user.getPhone());
+		labelError.setText(null);
+		username.setText(PatientModel.user.getUsername());
+		password.setText(PatientModel.user.getPassword());
+		age.setText(PatientModel.user.getAge() + "");
+		phone.setText(PatientModel.user.getPhone());
 		String sex = PatientModel.user.getSex();
-		if(sex.equals("Male")) {
-			this.radioMale.setSelected(true);
-		}else {
-			this.radioFemale.setSelected(true);
+		if (sex.equals("Male")) {
+			radioMale.setSelected(true);
+		} else {
+			radioFemale.setSelected(true);
 		}
-		this.email.setText(PatientModel.user.getEmail());
-		this.city.setText(PatientModel.user.getCity());
-		this.state.setText(PatientModel.user.getState());
-		//this.pincode.setText(PatientModel.user.getPincode());
-		this.pincode.setText("123");
-		System.out.println(this.pincode.getText());
+		email.setText(PatientModel.user.getEmail());
+		city.setText(PatientModel.user.getCity());
+		state.setText(PatientModel.user.getState());
+		pincode.setText(PatientModel.user.getPincode());
+
 	}
-	
-	public void manageSubmit(){
+
+	public void manageSubmit() {
 		PatientModel user = new PatientModel();
 		labelError.setText("");
 		// lblError.getStyleClass().add("text-error");
@@ -167,8 +164,8 @@ public class PatientManageProfileController implements Initializable{
 		String city = this.city.getText();
 		String state = this.state.getText();
 		String pincode = this.pincode.getText();
-		
-		System.out.println("username:"+username);
+
+		System.out.println("username:" + username);
 
 		// Validations
 		if (username == null || username.trim().equals("")) {
@@ -207,7 +204,7 @@ public class PatientManageProfileController implements Initializable{
 			labelError.setText("The format of email is incorrect");
 			return;
 		}
-		
+
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setAge(age);
@@ -230,21 +227,22 @@ public class PatientManageProfileController implements Initializable{
 			labelError.setText("Modify incorrect !");
 		}
 	}
-	
+
 	public void resetValue() {
-//		this.labelError.setText("");
-//		this.username.setText("");
-//		this.password.setText("");
-//		this.age.setText("");
-//		this.phone.setText("");
-//		this.radioMale.setSelected(true);
-//		this.email.setText("");
-//		this.city.setText("");
-//		this.state.setText("");
-		this.pincode.setText("2");
+		this.labelError.setText("");
+		this.username.setText("");
+		this.password.setText("");
+		this.age.setText("");
+		this.phone.setText("");
+		this.radioMale.setSelected(true);
+		this.email.setText("");
+		this.city.setText("");
+		this.state.setText("");
+		this.pincode.setText("");
 	}
-	
-	public void backPatientPage(){
+
+	public void backPatientPage() {
+		PatientPageController.controller.initScene();
 		PatientPageController.controller.showScene();
 	}
 }

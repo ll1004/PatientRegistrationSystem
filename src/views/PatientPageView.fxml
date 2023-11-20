@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controllers.PatientPageController">
   <children>
-    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="102.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="102.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToAddRegistrationPage">
       <image>
         <Image url="@../../images/patient_page_registration.png" />
       </image>
@@ -32,9 +32,9 @@
         <Image url="@../../images/page_logout.png" />
       </image>
     </ImageView>
-    <Label layoutX="115.0" layoutY="168.0" text="Add Registration" />
+    <Label layoutX="115.0" layoutY="168.0" text="Add Registration" onMouseClicked="#switchToAddRegistrationPage" />
     <Label layoutX="385.0" layoutY="168.0" text="View Registration" />
-    <Label layoutX="120.0" layoutY="344.0" text="Manage Profile" />
+    <Label layoutX="120.0" layoutY="344.0" text="Manage Profile" onMouseClicked="#switchToManageProfilePage" />
     <Label layoutX="420.0" layoutY="344.0" text="Logout" onMouseClicked="#logoutPatientPage" />
   </children>
 </AnchorPane>

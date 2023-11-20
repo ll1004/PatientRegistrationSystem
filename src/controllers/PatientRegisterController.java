@@ -67,7 +67,7 @@ public class PatientRegisterController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean initScene() {
@@ -86,10 +86,8 @@ public class PatientRegisterController implements Initializable {
 		if (Main.stage == null || root == null) {
 			return false;
 		}
-		if (scene == null) {
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
-		}
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
 		Main.stage.setScene(scene);
 		Main.stage.setTitle(TITLE);
 		Main.stage.show();
@@ -215,6 +213,7 @@ public class PatientRegisterController implements Initializable {
 	}
 
 	public void backLogin() {
+		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
 	}
 }

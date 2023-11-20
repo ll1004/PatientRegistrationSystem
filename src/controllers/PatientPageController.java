@@ -14,21 +14,21 @@ import javafx.scene.Scene;
 import models.PatientModel;
 
 public class PatientPageController implements Initializable {
-	//The title of current page
+	// The title of current page
 	static final String TITLE = "Patient Home";
 	static final String FXM_URL = "/views/PatientPageView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;
-	//The unique instance of the current controller to implement page switching
+	// The unique instance of the current controller to implement page switching
 	public static PatientPageController controller = null;
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public boolean initScene() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(FXM_URL));
@@ -45,22 +45,25 @@ public class PatientPageController implements Initializable {
 		if (Main.stage == null || root == null) {
 			return false;
 		}
-		if (scene == null) {
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
-		}
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
 		Main.stage.setScene(scene);
 		Main.stage.setTitle(TITLE);
 		Main.stage.show();
 		return true;
 	}
-	
-	public void logoutPatientPage(){
+
+	public void logoutPatientPage() {
 		PatientModel.user = null;
 		PatientLoginController.controller.showScene();
 	}
-	
-	public void switchToManageProfilePage(){
+
+	public void switchToAddRegistrationPage() {
+		PatientAddRegistrationController.controller.initScene();
+		PatientAddRegistrationController.controller.showScene();
+	}
+
+	public void switchToManageProfilePage() {
 		PatientManageProfileController.controller.initScene();
 		PatientManageProfileController.controller.showScene();
 	}

@@ -1,7 +1,7 @@
 package models;
 
 public class PatientModel {
-	private String id;
+	private int id;
 	private String username;
 	private String password;
 	private int age;
@@ -18,13 +18,13 @@ public class PatientModel {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	/**

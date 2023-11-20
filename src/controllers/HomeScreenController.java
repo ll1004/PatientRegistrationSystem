@@ -15,29 +15,29 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 public class HomeScreenController implements Initializable {
-	//The title of current page
+	// The title of current page
 	static final String TITLE = "Home";
 	static final String FXM_URL = "/views/HomeScreenView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;
-	//The unique instance of the current controller to implement page switching
+	// The unique instance of the current controller to implement page switching
 	public static HomeScreenController controller = null;
-	
+
 	@FXML
 	private Label homeScreenImageViewPatient;
-	
+
 	public HomeScreenController() {
-		
+
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		//this.homeScreenImageViewPatient.getStyleClass().add("home-screen-patient");
-		
+		// this.homeScreenImageViewPatient.getStyleClass().add("home-screen-patient");
+
 	}
-	
+
 	public boolean initScene() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(FXM_URL));
@@ -49,12 +49,12 @@ public class HomeScreenController implements Initializable {
 		}
 		return true;
 	}
-	
+
 	public boolean showScene() {
-		if(Main.stage==null||root==null) {
+		if (Main.stage == null || root == null) {
 			return false;
 		}
-		if(scene==null) {
+		if (scene == null) {
 			scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
 		}
@@ -63,12 +63,13 @@ public class HomeScreenController implements Initializable {
 		Main.stage.show();
 		return true;
 	}
-	
+
 	public void exitHome() {
 		System.exit(0);
 	}
-	
+
 	public void switchToPatient() {
+		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
 	}
 

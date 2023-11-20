@@ -62,10 +62,8 @@ public class PatientLoginController implements Initializable {
 		if (Main.stage == null || root == null) {
 			return false;
 		}
-		if (scene == null) {
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
-		}
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
 		Main.stage.setScene(scene);
 		Main.stage.setTitle(TITLE);
 		Main.stage.show();
@@ -101,14 +99,14 @@ public class PatientLoginController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Login success!");
 			alert.showAndWait();
-
+			PatientPageController.controller.initScene();
 			PatientPageController.controller.showScene();
 
 		} else {
 			loginLabelError.setText("Login incorrect!");
 		}
 	}
-	
+
 	@FXML
 	public void resetValue() {
 		this.loginUsername.setText(null);
@@ -120,6 +118,7 @@ public class PatientLoginController implements Initializable {
 	}
 
 	public void switchToRegister() {
+		PatientRegisterController.controller.initScene();
 		PatientRegisterController.controller.showScene();
 	}
 }
