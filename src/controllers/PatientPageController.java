@@ -55,6 +55,7 @@ public class PatientPageController implements Initializable {
 
 	public void logoutPatientPage() {
 		PatientModel.user = null;
+		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
 	}
 
