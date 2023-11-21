@@ -17,7 +17,7 @@
         <Image url="@../../images/patient_page_registration.png" />
       </image>
     </ImageView>
-    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="376.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="376.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToViewRegistrationPage">
       <image>
         <Image url="@../../images/patient_page_view.png" />
       </image>
@@ -33,7 +33,7 @@
       </image>
     </ImageView>
     <Label layoutX="115.0" layoutY="168.0" text="Add Registration" onMouseClicked="#switchToAddRegistrationPage" />
-    <Label layoutX="385.0" layoutY="168.0" text="View Registration" />
+    <Label layoutX="385.0" layoutY="168.0" text="View Registration" onMouseClicked="#switchToViewRegistrationPage" />
     <Label layoutX="120.0" layoutY="344.0" text="Manage Profile" onMouseClicked="#switchToManageProfilePage" />
     <Label layoutX="420.0" layoutY="344.0" text="Logout" onMouseClicked="#logoutPatientPage" />
   </children>

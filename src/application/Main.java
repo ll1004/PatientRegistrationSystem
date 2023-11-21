@@ -6,6 +6,7 @@ import controllers.PatientLoginController;
 import controllers.PatientManageProfileController;
 import controllers.PatientPageController;
 import controllers.PatientRegisterController;
+import controllers.PatientViewRegistrationController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -47,6 +48,9 @@ public class Main extends Application {
 
 			PatientAddRegistrationController patientAddRegistrationController = new PatientAddRegistrationController();
 			PatientAddRegistrationController.controller = patientAddRegistrationController;
+			
+			PatientViewRegistrationController patientViewRegistrationController = new PatientViewRegistrationController();
+			PatientViewRegistrationController.controller = patientViewRegistrationController;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

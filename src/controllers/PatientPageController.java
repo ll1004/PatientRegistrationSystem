@@ -58,6 +58,11 @@ public class PatientPageController implements Initializable {
 		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
 	}
+	
+	public void switchToViewRegistrationPage(){
+		PatientViewRegistrationController.controller.initScene();
+		PatientViewRegistrationController.controller.showScene();
+	}
 
 	public void switchToAddRegistrationPage() {
 		PatientAddRegistrationController.controller.initScene();

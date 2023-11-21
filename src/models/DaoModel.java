@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import controllers.PatientViewRegistrationController;
+
 public class DaoModel {
 	Connection conn = null;
 	Statement stmt = null;
@@ -286,6 +288,53 @@ public class DaoModel {
 			pstmt.setString(4, rm.getStatus());
 			pstmt.setString(5, rm.getReservationDate());
 			pstmt.setString(6, rm.getCreateTime());
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+	
+	public ArrayList<PatientViewRegistrationController.Registration> getCurrentPatientRegistrationList() {
+		ResultSet rs = null;
+		ArrayList<PatientViewRegistrationController.Registration> ls = new ArrayList<>();
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve registration from registration table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id where patientId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, PatientModel.user.getId());
+			rs = pstmt.executeQuery();
+			// PatientModel should be replaced by DoctorModel
+			int counter=0;
+			while (rs.next()) {
+				ls.add(new PatientViewRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+			}
+
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ls;
+	}
+	
+	public boolean cancelPatientRegistration(int id) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Updating Patient into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "UPDATE registration_tab SET status='Cancelled' where id="+id;
+			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 			conn.close();
 			return true;

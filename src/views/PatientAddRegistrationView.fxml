@@ -14,20 +14,20 @@
 <AnchorPane fx:id="panel" prefHeight="420.0" prefWidth="660.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controllers.PatientAddRegistrationController">
   <children>
     <TextField fx:id="username" disable="true" layoutX="126.0" layoutY="55.0" />
-    <Label layoutX="38.0" layoutY="64.0" text="Patient Name" />
-    <Label layoutX="357.0" layoutY="64.0" text="Doctor Name" />
-    <Label layoutX="48.0" layoutY="124.0" text="Department" />
-    <Label layoutX="338.0" layoutY="124.0" text="Reservation Date" />
+    <Label layoutX="38.0" layoutY="60.0" text="Patient Name" />
+    <Label layoutX="360.0" layoutY="60.0" text="Department" />
+    <Label layoutX="40.0" layoutY="124.0" text="Doctor Name" />
+    <Label layoutX="332.0" layoutY="124.0" text="Reservation Date" />
     <DatePicker fx:id="reservationDate" layoutX="444.0" layoutY="121.0" prefWidth="159.0" />
     <Button layoutX="293.0" layoutY="362.0" mnemonicParsing="false" onAction="#addSubmit" text="Submit" />
     <Button layoutX="30.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#backPatientPage" text="Back" />
     <Button layoutX="424.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#resetValue" text="Reset" />
-    <ComboBox fx:id="doctorComboBox" editable="true" layoutX="443.0" layoutY="57.0" prefWidth="159.0">
+    <ComboBox fx:id="departmentComboBox" editable="true" layoutX="443.0" layoutY="57.0" prefWidth="159.0">
       <items>
         <FXCollections fx:factory="observableArrayList" />
       </items>
     </ComboBox>
-    <ComboBox fx:id="departmentComboBox" disable="false" editable="true" layoutX="127.0" layoutY="121.0" prefWidth="159.0">
+    <ComboBox fx:id="doctorComboBox" disable="false" editable="true" layoutX="127.0" layoutY="121.0" prefWidth="159.0">
       <items>
         <FXCollections fx:factory="observableArrayList" />
       </items>

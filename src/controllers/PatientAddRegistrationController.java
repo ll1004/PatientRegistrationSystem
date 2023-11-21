@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -90,22 +91,41 @@ public class PatientAddRegistrationController implements Initializable {
 		Main.stage.show();
 		return true;
 	}
+	
+	public static long reverseStringToStamp(String s) {
+		s+=" 23:59:59";
+		long l=0l;
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			java.util.Date d = fm.parse(s);
+			l=d.getTime();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return l;
+	}
 
 	public void addSubmit() {
 		labelError.setText("");
 		labelError.setStyle("-fx-text-fill: red;");
-
-		if (this.doctorComboBox.getValue() == null || this.doctorComboBox.getValue().toString().trim().equals("")) {
-			labelError.setText("Doctor name Cannot be empty or spaces");
-			return;
-		}
+		
 		if (this.departmentComboBox.getValue() == null
 				|| this.departmentComboBox.getValue().toString().trim().equals("")) {
 			labelError.setText("Department name Cannot be empty or spaces");
 			return;
 		}
+		if (this.doctorComboBox.getValue() == null || this.doctorComboBox.getValue().toString().trim().equals("")) {
+			labelError.setText("Doctor name Cannot be empty or spaces");
+			return;
+		}
 		if (this.reservationDate.getValue() == null || this.reservationDate.getValue().toString().trim().equals("")) {
 			labelError.setText("Reservation date Cannot be empty or spaces");
+			return;
+		}
+		Date d = new Date(System.currentTimeMillis());
+		if(reverseStringToStamp(reservationDate.getValue().toString())<d.getTime()) {
+			labelError.setText("Reservation date Cannot be early than current date");
 			return;
 		}
 
