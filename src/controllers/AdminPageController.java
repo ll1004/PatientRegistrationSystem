@@ -59,9 +59,9 @@ public class AdminPageController implements Initializable {
 		AdminLoginController.controller.showScene();
 	}
 	
-	public void switchToViewRegistrationPage(){
-		AdminViewRegistrationController.controller.initScene();
-		AdminViewRegistrationController.controller.showScene();
+	public void switchToManageRegistrationPage(){
+		AdminManageRegistrationController.controller.initScene();
+		AdminManageRegistrationController.controller.showScene();
 	}
 
 	public void switchToAddRegistrationPage() {
@@ -69,9 +69,13 @@ public class AdminPageController implements Initializable {
 		AdminAddRegistrationController.controller.showScene();
 	}
 
-//???????????????
-//	public void switchToManageProfilePage() {
-//		AdminManageProfileController.controller.initScene();
-//		AdminManageProfileController.controller.showScene();
-//	}
+	public void switchToManageProfilePage() {
+		AdminManageProfileController.controller.initScene();
+		AdminManageProfileController.controller.showScene();
+	}
+	
+	public void switchToManagePatientPage(){
+		AdminManagePatientController.controller.initScene();
+		AdminManagePatientController.controller.showScene();
+	}
 }

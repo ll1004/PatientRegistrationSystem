@@ -76,7 +76,24 @@ public class Main extends Application {
 
 			DoctorViewRegistrationController doctorViewRegistrationController = new DoctorViewRegistrationController();
 			DoctorViewRegistrationController.controller = doctorViewRegistrationController;
-
+			
+			AdminLoginController adminLoginController = new AdminLoginController();
+			AdminLoginController.controller = adminLoginController;
+			
+			AdminRegisterController adminRegisterController = new AdminRegisterController();
+			AdminRegisterController.controller = adminRegisterController;
+			
+			AdminPageController adminPageController = new AdminPageController();
+			AdminPageController.controller = adminPageController;
+			
+			AdminManageProfileController adminManageProfileController = new AdminManageProfileController();
+			AdminManageProfileController.controller = adminManageProfileController;
+			
+			AdminManageRegistrationController adminManageRegistrationController = new AdminManageRegistrationController();
+			AdminManageRegistrationController.controller = adminManageRegistrationController;
+			
+			AdminManagePatientController adminManagePatientController = new AdminManagePatientController();
+			AdminManagePatientController.controller = adminManagePatientController;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
