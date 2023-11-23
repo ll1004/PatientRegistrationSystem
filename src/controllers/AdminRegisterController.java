@@ -1,37 +1,31 @@
 
 package controllers;
 
-        import java.io.IOException;
-        import java.net.URL;
-        import java.util.ResourceBundle;
-        import java.util.regex.Pattern;
+import application.Main;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import models.DaoModel;
+import models.AdminModel;
 
-        import application.Main;
-        import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
-        import javafx.fxml.Initializable;
-        import javafx.scene.Parent;
-        import javafx.scene.Scene;
-        import javafx.scene.control.Alert;
-        import javafx.scene.control.Label;
-        import javafx.scene.control.PasswordField;
-        import javafx.scene.control.RadioButton;
-        import javafx.scene.control.TextField;
-        import javafx.scene.control.ToggleGroup;
-        import javafx.scene.control.Alert.AlertType;
-        import models.DaoModel;
-        import models.DoctorModel;
-        import models.PatientModel;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
-public class DoctorRegisterController implements Initializable {
+public class AdminRegisterController implements Initializable {
     // The title of current page
-    static final String TITLE = "New Doctor Register";
-    static final String FXM_URL = "/views/DoctorRegisterView.fxml";
+    static final String TITLE = "New Admin Register";
+    static final String FXM_URL = "/views/AdminRegisterView.fxml";
     static final String CSS_URL = "../application/application.css";
     static Parent root = null;
     static Scene scene = null;
     // The unique instance of the current controller to implement page switching
-    public static DoctorRegisterController controller = null;
+    public static AdminRegisterController controller = null;
 
     @FXML
     private TextField registerUsername;
@@ -121,7 +115,7 @@ public class DoctorRegisterController implements Initializable {
     }
 
     public void registerSubmit() {
-        DoctorModel user = new DoctorModel();
+        AdminModel user = new AdminModel();
         registerLabelError.setText("");
         // lblError.getStyleClass().add("text-error");
         registerLabelError.setStyle("-fx-text-fill: red;");
@@ -188,9 +182,9 @@ public class DoctorRegisterController implements Initializable {
         user.setState(state);
         user.setPincode(pincode);
 
-        boolean flag = DaoModel.dao.insertDoctor(user);
+        boolean flag = DaoModel.dao.insertAdmin(user);
         if (flag) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Alert");
             alert.setHeaderText(null);
             alert.setContentText("Register success!");

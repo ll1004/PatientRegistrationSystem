@@ -1,27 +1,27 @@
 
 package controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import application.Main;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import models.PatientModel;
+import models.DoctorModel;
 
-public class PatientPageController implements Initializable {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class DoctorPageController implements Initializable {
 	// The title of current page
-	static final String TITLE = "Patient Home";
-	static final String FXM_URL = "/views/PatientPageView.fxml";
+	static final String TITLE_DOC = "Doctor Home";
+	static final String FXM_URL_DOC = "/views/DoctorPageView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;
+
 	// The unique instance of the current controller to implement page switching
-	public static PatientPageController controller = null;
+	public static DoctorPageController controller = null;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -31,7 +31,7 @@ public class PatientPageController implements Initializable {
 
 	public boolean initScene() {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(FXM_URL));
+		loader.setLocation(getClass().getResource(FXM_URL_DOC));
 		try {
 			root = loader.load();
 		} catch (IOException e) {
@@ -48,29 +48,30 @@ public class PatientPageController implements Initializable {
 		scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource(CSS_URL).toExternalForm());
 		Main.stage.setScene(scene);
-		Main.stage.setTitle(TITLE);
+		Main.stage.setTitle(TITLE_DOC);
 		Main.stage.show();
 		return true;
 	}
 
-	public void logoutPatientPage() {
-		PatientModel.user = null;
-		PatientLoginController.controller.initScene();
-		PatientLoginController.controller.showScene();
+	public void logoutDoctorPage() {
+		DoctorModel.user = null;
+		DoctorLoginController.controller.initScene();
+		DoctorLoginController.controller.showScene();
 	}
 	
 	public void switchToViewRegistrationPage(){
-		PatientViewRegistrationController.controller.initScene();
-		PatientViewRegistrationController.controller.showScene();
+		DoctorViewRegistrationController.controller.initScene();
+		DoctorViewRegistrationController.controller.showScene();
 	}
 
 	public void switchToAddRegistrationPage() {
-		PatientAddRegistrationController.controller.initScene();
-		PatientAddRegistrationController.controller.showScene();
+		DoctorAddRegistrationController.controller.initScene();
+		DoctorAddRegistrationController.controller.showScene();
 	}
 
-	public void switchToManageProfilePage() {
-		PatientManageProfileController.controller.initScene();
-		PatientManageProfileController.controller.showScene();
-	}
+//???????????????
+//	public void switchToManageProfilePage() {
+//		DoctorManageProfileController.controller.initScene();
+//		DoctorManageProfileController.controller.showScene();
+//	}
 }

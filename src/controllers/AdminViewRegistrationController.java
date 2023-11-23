@@ -3,36 +3,29 @@ package controllers;
 import application.Main;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import models.DaoModel;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-
-public class DoctorViewRegistrationController implements Initializable {
+public class AdminViewRegistrationController implements Initializable {
 	// The title of current page
-	static final String TITLE = "Doctor View Registration";
-	static final String FXM_URL = "/views/DoctorViewRegistrationView.fxml";
+	static final String TITLE = "Admin View Registration";
+	static final String FXM_URL = "/views/AdminViewRegistrationView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;
 	// The unique instance of the current controller to implement page switching
-	public static DoctorViewRegistrationController controller = null;
+	public static AdminViewRegistrationController controller = null;
 	public static final String Cancelled = "Cancelled";
 	public static final String Registered = "Registered";
 	
@@ -46,7 +39,7 @@ public class DoctorViewRegistrationController implements Initializable {
 	private TableColumn<Registration, ?> registrationColId;
 	
 	@FXML
-	private TableColumn<Registration, ?> registrationColDoctorName;
+	private TableColumn<Registration, ?> registrationColAdminName;
 	
 	@FXML
 	private TableColumn<Registration, ?> registrationColSex;
@@ -55,7 +48,7 @@ public class DoctorViewRegistrationController implements Initializable {
 	private TableColumn<Registration, ?> registrationColAge;
 	
 	@FXML
-	private TableColumn<Registration, ?> registrationColDoctor;
+	private TableColumn<Registration, ?> registrationColAdmin;
 	
 	@FXML
 	private TableColumn<Registration, ?> registrationColDepartment;
@@ -102,10 +95,10 @@ public class DoctorViewRegistrationController implements Initializable {
 	public void initRegistrationTable(){
 		registrationColIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
 		registrationColId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		registrationColDoctorName.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+		registrationColAdminName.setCellValueFactory(new PropertyValueFactory<>("adminName"));
 		registrationColSex.setCellValueFactory(new PropertyValueFactory<>("sex"));
 		registrationColAge.setCellValueFactory(new PropertyValueFactory<>("age"));
-		registrationColDoctor.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+		registrationColAdmin.setCellValueFactory(new PropertyValueFactory<>("adminName"));
 		registrationColDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
 		registrationColStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 		registrationColReservationDate.setCellValueFactory(new PropertyValueFactory<>("reservationDate"));
@@ -114,8 +107,8 @@ public class DoctorViewRegistrationController implements Initializable {
 //	public void getRegistrationInfo(){
 //		ArrayList<PatientViewRegistrationController.Registration> ls = DaoModel.dao.getCurrentPatientRegistrationList();
 //		ObservableList<Registration> data = FXCollections.observableArrayList(
-//				//new Registration(1, 4, "Doctor1", "Male", 27, "Doctor Lee", "DP1", "Registered", date.toString()),
-//				//new Registration(2, 5, "Doctor2", "Male", 32, "Doctor Lee", "DP1", "Registered", date.toString())
+//				//new Registration(1, 4, "Admin1", "Male", 27, "Admin Lee", "DP1", "Registered", date.toString()),
+//				//new Registration(2, 5, "Admin2", "Male", 32, "Admin Lee", "DP1", "Registered", date.toString())
 //				);
 //		for(PatientViewRegistrationController.Registration i:ls) {
 //			data.add(i);
@@ -143,9 +136,9 @@ public class DoctorViewRegistrationController implements Initializable {
 //		}
 //	}
 	
-	public void backDoctorPage() {
-		DoctorPageController.controller.initScene();
-		DoctorPageController.controller.showScene();
+	public void backAdminPage() {
+		AdminPageController.controller.initScene();
+		AdminPageController.controller.showScene();
 	}
 	
 	public static class Registration{
@@ -154,18 +147,18 @@ public class DoctorViewRegistrationController implements Initializable {
 		private final SimpleStringProperty patientName;
 		private final SimpleStringProperty sex;
 		private final SimpleIntegerProperty age;
-		private final SimpleStringProperty doctorName;
+		private final SimpleStringProperty adminName;
 		private final SimpleStringProperty department;
 		private final SimpleStringProperty status;
 		private final SimpleStringProperty reservationDate;
 		
-		public Registration(int index,int id,String patientName,String sex,int age,String doctorName,String department,String status,String reservationDate) {
+		public Registration(int index,int id,String patientName,String sex,int age,String adminName,String department,String status,String reservationDate) {
 			this.index = new SimpleIntegerProperty(index);
 			this.id = new SimpleIntegerProperty(id);
 			this.patientName = new SimpleStringProperty(patientName);
 			this.sex = new SimpleStringProperty(sex);
 			this.age = new SimpleIntegerProperty(age);
-			this.doctorName = new SimpleStringProperty(doctorName);
+			this.adminName = new SimpleStringProperty(adminName);
 			this.department = new SimpleStringProperty(department);
 			this.status = new SimpleStringProperty(status);
 			this.reservationDate = new SimpleStringProperty(reservationDate);
@@ -191,8 +184,8 @@ public class DoctorViewRegistrationController implements Initializable {
 			return age.get();
 		}
 
-		public String getDoctorName() {
-			return doctorName.get();
+		public String getAdminName() {
+			return adminName.get();
 		}
 
 		public String getDepartment() {

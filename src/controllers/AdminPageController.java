@@ -6,22 +6,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import models.DoctorModel;
+import models.AdminModel;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DoctorPageController implements Initializable {
+public class AdminPageController implements Initializable {
 	// The title of current page
-	static final String TITLE_DOC = "Doctor Home";
-	static final String FXM_URL_DOC = "/views/DoctorPageView.fxml";
+	static final String TITLE_DOC = "Admin Home";
+	static final String FXM_URL_DOC = "/views/AdminPageView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;
 
 	// The unique instance of the current controller to implement page switching
-	public static DoctorPageController controller = null;
+	public static AdminPageController controller = null;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -53,25 +53,25 @@ public class DoctorPageController implements Initializable {
 		return true;
 	}
 
-	public void logoutDoctorPage() {
-		DoctorModel.user = null;
-		DoctorLoginController.controller.initScene();
-		DoctorLoginController.controller.showScene();
+	public void logoutAdminPage() {
+		AdminModel.user = null;
+		AdminLoginController.controller.initScene();
+		AdminLoginController.controller.showScene();
 	}
 	
 	public void switchToViewRegistrationPage(){
-		DoctorViewRegistrationController.controller.initScene();
-		DoctorViewRegistrationController.controller.showScene();
+		AdminViewRegistrationController.controller.initScene();
+		AdminViewRegistrationController.controller.showScene();
 	}
 
 	public void switchToAddRegistrationPage() {
-		DoctorAddRegistrationController.controller.initScene();
-		DoctorAddRegistrationController.controller.showScene();
+		AdminAddRegistrationController.controller.initScene();
+		AdminAddRegistrationController.controller.showScene();
 	}
 
 //???????????????
 //	public void switchToManageProfilePage() {
-//		DoctorManageProfileController.controller.initScene();
-//		DoctorManageProfileController.controller.showScene();
+//		AdminManageProfileController.controller.initScene();
+//		AdminManageProfileController.controller.showScene();
 //	}
 }

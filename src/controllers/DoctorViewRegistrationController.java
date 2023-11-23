@@ -1,11 +1,5 @@
 package controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
-
 import application.Main;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,21 +11,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.DaoModel;
 
-public class PatientViewRegistrationController implements Initializable {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+
+
+public class DoctorViewRegistrationController implements Initializable {
 	// The title of current page
-	static final String TITLE = "Patient View Registration";
-	static final String FXM_URL = "/views/PatientViewRegistrationView.fxml";
+	static final String TITLE = "Doctor View Registration";
+	static final String FXM_URL = "/views/DoctorViewRegistrationView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;
 	// The unique instance of the current controller to implement page switching
-	public static PatientViewRegistrationController controller = null;
+	public static DoctorViewRegistrationController controller = null;
 	public static final String Cancelled = "Cancelled";
 	public static final String Registered = "Registered";
 	
@@ -45,10 +46,10 @@ public class PatientViewRegistrationController implements Initializable {
 	private TableColumn<Registration, ?> registrationColId;
 	
 	@FXML
-	private TableColumn<Registration, ?> registrationColPatientName;
+	private TableColumn<Registration, ?> registrationColDoctorName;
 	
 	@FXML
-	private TableColumn<Registration, ?> registrationColGender;
+	private TableColumn<Registration, ?> registrationColSex;
 	
 	@FXML
 	private TableColumn<Registration, ?> registrationColAge;
@@ -67,9 +68,11 @@ public class PatientViewRegistrationController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+
 		initRegistrationTable();
-		getRegistrationInfo();
+		//get patient information
+		PatientViewRegistrationController patient= new PatientViewRegistrationController();
+		patient.getRegistrationInfo();
 	}
 	
 	public boolean initScene() {
@@ -78,7 +81,7 @@ public class PatientViewRegistrationController implements Initializable {
 		try {
 			root = loader.load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return true;
@@ -99,8 +102,8 @@ public class PatientViewRegistrationController implements Initializable {
 	public void initRegistrationTable(){
 		registrationColIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
 		registrationColId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		registrationColPatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
-		registrationColGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+		registrationColDoctorName.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+		registrationColSex.setCellValueFactory(new PropertyValueFactory<>("sex"));
 		registrationColAge.setCellValueFactory(new PropertyValueFactory<>("age"));
 		registrationColDoctor.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
 		registrationColDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
@@ -108,59 +111,59 @@ public class PatientViewRegistrationController implements Initializable {
 		registrationColReservationDate.setCellValueFactory(new PropertyValueFactory<>("reservationDate"));
 	}
 	
-	public void getRegistrationInfo(){
-		ArrayList<PatientViewRegistrationController.Registration> ls = DaoModel.dao.getCurrentPatientRegistrationList();
-		ObservableList<Registration> data = FXCollections.observableArrayList(
-				//new Registration(1, 4, "Patient1", "Male", 27, "Doctor Lee", "DP1", "Registered", date.toString()),
-				//new Registration(2, 5, "Patient2", "Male", 32, "Doctor Lee", "DP1", "Registered", date.toString())
-				);
-		for(PatientViewRegistrationController.Registration i:ls) {
-			data.add(i);
-		}
-		this.registrationTableView.setItems(data);
-	}
+//	public void getRegistrationInfo(){
+//		ArrayList<PatientViewRegistrationController.Registration> ls = DaoModel.dao.getCurrentPatientRegistrationList();
+//		ObservableList<Registration> data = FXCollections.observableArrayList(
+//				//new Registration(1, 4, "Doctor1", "Male", 27, "Doctor Lee", "DP1", "Registered", date.toString()),
+//				//new Registration(2, 5, "Doctor2", "Male", 32, "Doctor Lee", "DP1", "Registered", date.toString())
+//				);
+//		for(PatientViewRegistrationController.Registration i:ls) {
+//			data.add(i);
+//		}
+//		this.registrationTableView.setItems(data);
+//	}
 	
-	public void cancelRegistration() {
-		Registration item = registrationTableView.getSelectionModel().getSelectedItem();
-		if(item==null) {
-			return;
-		}
-		if(item.status.get().equals(Registered)) {
-			//change status
-			boolean flag = DaoModel.dao.cancelPatientRegistration(item.id.get());
-			if(flag) {
-				getRegistrationInfo();
-			}
-		} else {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Alert");
-			alert.setHeaderText(null);
-			alert.setContentText("This registration can't be cancelled");
-			alert.showAndWait();
-		}
-	}
+//	public void cancelRegistration() {
+//		Registration item = registrationTableView.getSelectionModel().getSelectedItem();
+//		if(item==null) {
+//			return;
+//		}
+//		if(item.status.get().equals(Registered)) {
+//			//change status
+//			boolean flag = DaoModel.dao.cancelPatientRegistration(item.id.get());
+//			if(flag) {
+//				getRegistrationInfo();
+//			}
+//		} else {
+//			Alert alert = new Alert(AlertType.INFORMATION);
+//			alert.setTitle("Alert");
+//			alert.setHeaderText(null);
+//			alert.setContentText("This registration can't be cancelled");
+//			alert.showAndWait();
+//		}
+//	}
 	
-	public void backPatientPage() {
-		PatientPageController.controller.initScene();
-		PatientPageController.controller.showScene();
+	public void backDoctorPage() {
+		DoctorPageController.controller.initScene();
+		DoctorPageController.controller.showScene();
 	}
 	
 	public static class Registration{
 		private final SimpleIntegerProperty index;
 		private final SimpleIntegerProperty id;
 		private final SimpleStringProperty patientName;
-		private final SimpleStringProperty gender;
+		private final SimpleStringProperty sex;
 		private final SimpleIntegerProperty age;
 		private final SimpleStringProperty doctorName;
 		private final SimpleStringProperty department;
 		private final SimpleStringProperty status;
 		private final SimpleStringProperty reservationDate;
 		
-		public Registration(int index,int id,String patientName,String gender,int age,String doctorName,String department,String status,String reservationDate) {
+		public Registration(int index,int id,String patientName,String sex,int age,String doctorName,String department,String status,String reservationDate) {
 			this.index = new SimpleIntegerProperty(index);
 			this.id = new SimpleIntegerProperty(id);
 			this.patientName = new SimpleStringProperty(patientName);
-			this.gender = new SimpleStringProperty(gender);
+			this.sex = new SimpleStringProperty(sex);
 			this.age = new SimpleIntegerProperty(age);
 			this.doctorName = new SimpleStringProperty(doctorName);
 			this.department = new SimpleStringProperty(department);
@@ -180,8 +183,8 @@ public class PatientViewRegistrationController implements Initializable {
 			return patientName.get();
 		}
 
-		public String getGender() {
-			return gender.get();
+		public String getSex() {
+			return sex.get();
 		}
 
 		public int getAge() {

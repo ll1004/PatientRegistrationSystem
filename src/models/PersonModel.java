@@ -1,20 +1,19 @@
 package models;
 
-public class PatientModel {
-	private int id;
-	private String username;
-	private String password;
-	private int age;
-	private String gender;
-	private String phone;
-	private String email;
-	private String city;
-	private String state;
-	private String zipcode;
-	private String createTime;
-	private String updateTime;
+public class PersonModel {
+	protected int id;
+	protected String username;
+	protected String password;
+	protected int age;
+	protected String sex;
+	protected String phone;
+	protected String email;
+	protected String city;
+	protected String state;
+	protected String pincode;
+
 	//To save the unique instance of the currently logged in user
-	public static PatientModel user;
+	public static PersonModel user;
 	/**
 	 * @return the id
 	 */
@@ -64,16 +63,16 @@ public class PatientModel {
 		this.age = age;
 	}
 	/**
-	 * @return the gender
+	 * @return the sex
 	 */
-	public String getGender() {
-		return gender;
+	public String getSex() {
+		return sex;
 	}
 	/**
-	 * @param gender the gender to set
+	 * @param sex the sex to set
 	 */
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	/**
 	 * @return the phone
@@ -124,39 +123,19 @@ public class PatientModel {
 		this.state = state;
 	}
 	/**
-	 * @return the zipcode
+	 * @return the pincode
 	 */
-	public String getZipcode() {
-		return zipcode;
+	public String getPincode() {
+		return pincode;
 	}
 	/**
-	 * @param zipcode the zipcode to set
+	 * @param pincode the pincode to set
 	 */
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
 	}
 	/**
 	 * @return the createTime
 	 */
-	public String getCreateTime() {
-		return createTime;
-	}
-	/**
-	 * @param createTime the createTime to set
-	 */
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-	/**
-	 * @return the updateTime
-	 */
-	public String getUpdateTime() {
-		return updateTime;
-	}
-	/**
-	 * @param updateTime the updateTime to set
-	 */
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
+
 }

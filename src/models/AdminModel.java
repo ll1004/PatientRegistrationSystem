@@ -1,5 +1,5 @@
 package models;
 
-public class DoctorModel extends PersonModel{
+public class AdminModel extends PersonModel{
 
 }

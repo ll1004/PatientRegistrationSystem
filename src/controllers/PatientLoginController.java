@@ -81,11 +81,11 @@ public class PatientLoginController implements Initializable {
 
 		// Validations
 		if (username == null || username.trim().equals("")) {
-			loginLabelError.setText("Username Cannot be empty or spaces");
+			loginLabelError.setText("Password Cannot be empty or only contains spaces");
 			return;
 		}
 		if (password == null || password.trim().equals("")) {
-			loginLabelError.setText("Password Cannot be empty or spaces");
+			loginLabelError.setText("Password Cannot be empty or only contains spaces");
 			return;
 		}
 
@@ -97,13 +97,13 @@ public class PatientLoginController implements Initializable {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Alert");
 			alert.setHeaderText(null);
-			alert.setContentText("Login success!");
+			alert.setContentText("Login successful!");
 			alert.showAndWait();
 			PatientPageController.controller.initScene();
 			PatientPageController.controller.showScene();
 
 		} else {
-			loginLabelError.setText("Login incorrect!");
+			loginLabelError.setText("Login failed.");
 		}
 	}
 

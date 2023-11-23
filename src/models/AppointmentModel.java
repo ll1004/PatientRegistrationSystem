@@ -1,6 +1,6 @@
 package models;
 
-public class RegistrationModel {
+public class AppointmentModel {
 	private int id;
 	private int patientId;
 	private int doctorId;

@@ -8,10 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import models.AppointmentModel;
 import models.DaoModel;
 import models.PatientModel;
-import models.AppointmentModel;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,21 +22,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.Alert;
-        import javafx.scene.control.ComboBox;
-        import javafx.scene.control.DatePicker;
-        import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
-public class DoctorAddRegistrationController implements Initializable {
+public class AdminAddRegistrationController implements Initializable {
     // The title of current page
-    static final String TITLE = "New Doctor Registration";
-    static final String FXM_URL = "/views/DoctorAddRegistrationView.fxml";
+    static final String TITLE = "New Admin Registration";
+    static final String FXM_URL = "/views/AdminAddRegistrationView.fxml";
     static final String CSS_URL = "../application/application.css";
     static Parent root = null;
     static Scene scene = null;
     // The unique instance of the current controller to implement page switching
-    public static PatientAddRegistrationController controller = null;
+    public static AdminAddRegistrationController controller = null;
     public static final String Registered = "Registered";
     public static final String Called = "Called";
 
@@ -49,7 +44,7 @@ public class DoctorAddRegistrationController implements Initializable {
     private DatePicker reservationDate;
 
     @FXML
-    private ComboBox doctorComboBox;
+    private ComboBox adminComboBox;
 
     @FXML
     private ComboBox departmentComboBox;
@@ -110,8 +105,8 @@ public class DoctorAddRegistrationController implements Initializable {
             labelError.setText("Department name Cannot be empty or spaces");
             return;
         }
-        if (this.doctorComboBox.getValue() == null || this.doctorComboBox.getValue().toString().trim().equals("")) {
-            labelError.setText("Doctor name Cannot be empty or spaces");
+        if (this.adminComboBox.getValue() == null || this.adminComboBox.getValue().toString().trim().equals("")) {
+            labelError.setText("Admin name Cannot be empty or spaces");
             return;
         }
         if (this.reservationDate.getValue() == null || this.reservationDate.getValue().toString().trim().equals("")) {
@@ -124,33 +119,33 @@ public class DoctorAddRegistrationController implements Initializable {
             return;
         }
 
-        String doctor = this.doctorComboBox.getValue().toString();
-        System.out.println("doctor:" + doctor);
+        String admin = this.adminComboBox.getValue().toString();
+        System.out.println("admin:" + admin);
         String department = this.departmentComboBox.getValue().toString();
         String date = this.reservationDate.getValue().toString();
         System.out.println("reservationDate:" + date);
 
-        int key = doctor.indexOf("-");
-        int doctorId = Integer.parseInt(doctor.substring(key + 1));
+        int key = admin.indexOf("-");
+        int adminId = Integer.parseInt(admin.substring(key + 1));
 
-        AppointmentModel rm = new AppointmentModel();
-        rm.setPatientId(PatientModel.user.getId());
-        rm.setDoctorId(doctorId);
-        rm.setDepartment(department);
-        rm.setReservationDate(date);
-        rm.setStatus(Registered);
-        Date now = new Date(System.currentTimeMillis());
-        rm.setCreateTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(now.getTime()));
-        boolean flag = DaoModel.dao.insertRegistration(rm);
-        if (flag) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Alert");
-            alert.setHeaderText(null);
-            alert.setContentText("Add registration success!");
-            alert.showAndWait();
-        } else {
-            labelError.setText("Add registration incorrect!");
-        }
+//        AppointmentModel rm = new AppointmentModel();
+//        rm.setPatientId(PatientModel.user.getId());
+//        rm.setAdminId(adminId);
+//        rm.setDepartment(department);
+//        rm.setReservationDate(date);
+//        rm.setStatus(Registered);
+//        Date now = new Date(System.currentTimeMillis());
+//        rm.setCreateTime(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(now.getTime()));
+//        boolean flag = DaoModel.dao.insertRegistration(rm);
+//        if (flag) {
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Alert");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Add registration success!");
+//            alert.showAndWait();
+//        } else {
+//            labelError.setText("Add registration incorrect!");
+//        }
     }
 
     public void initPageInfo() {
@@ -159,24 +154,25 @@ public class DoctorAddRegistrationController implements Initializable {
 
         ObservableList<String> options = FXCollections.observableArrayList(DaoModel.departmentList);
         departmentComboBox.setItems(options);
-        ArrayList<PatientModel> ls = DaoModel.dao.getAllDoctorList();
+//        TODO
+        ArrayList<PatientModel> ls = DaoModel.dao.getAllDoctorList();//?????
         ObservableList<String> options2 = FXCollections.observableArrayList(
 
         );
         for (PatientModel us : ls) {
             options2.add(us.getUsername() + "-" + us.getId());
         }
-        doctorComboBox.setItems(options2);
+        adminComboBox.setItems(options2);
     }
 
-    public void backPatientPage() {
+    public void backAdminPage() {
         PatientPageController.controller.initScene();
         PatientPageController.controller.showScene();
     }
 
     public void resetValue() {
         this.labelError.setText("");
-        this.doctorComboBox.setValue(null);
+        this.adminComboBox.setValue(null);
         this.departmentComboBox.setValue(null);
         this.reservationDate.setValue(null);
     }
