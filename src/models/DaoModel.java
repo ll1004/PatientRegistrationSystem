@@ -393,8 +393,12 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "UPDATE registration_tab SET status='Cancelled' where id="+id;
+			Date date = new Date(System.currentTimeMillis());
+			String d=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime());
+			sql = "UPDATE registration_tab SET status='Cancelled',updateTime=? where id=?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, d);
+			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 			conn.close();
 			return true;
