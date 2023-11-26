@@ -209,7 +209,7 @@ public class AdminRegisterController implements Initializable {
     }
 
     public void backLogin() {
-        PatientLoginController.controller.initScene();
-        PatientLoginController.controller.showScene();
+    	AdminLoginController.controller.initScene();
+    	AdminLoginController.controller.showScene();
     }
 }

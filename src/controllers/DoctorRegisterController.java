@@ -215,7 +215,7 @@ public class DoctorRegisterController implements Initializable {
     }
 
     public void backLogin() {
-        PatientLoginController.controller.initScene();
-        PatientLoginController.controller.showScene();
+    	DoctorLoginController.controller.initScene();
+    	DoctorLoginController.controller.showScene();
     }
 }

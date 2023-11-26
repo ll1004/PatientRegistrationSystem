@@ -11,6 +11,8 @@ public class PersonModel {
 	protected String city;
 	protected String state;
 	protected String pincode;
+	protected String createTime;
+	protected String updateTime;
 
 	//To save the unique instance of the currently logged in user
 	public static PersonModel user;
@@ -137,5 +139,25 @@ public class PersonModel {
 	/**
 	 * @return the createTime
 	 */
-
+	public String getCreateTime() {
+		return createTime;
+	}
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	/**
+	 * @return the updateTime
+	 */
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * @param updateTime the updateTime to set
+	 */
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
 }

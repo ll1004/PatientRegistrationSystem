@@ -1,5 +1,7 @@
 package models;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -35,24 +37,30 @@ public class DaoModel {
 			e.printStackTrace();
 		}
 	}
-
-	public boolean isTableExist(String tableName) {
-		boolean flag = false;
-		ResultSet rs = null;
-		try {
-			conn = new DBConnect().connect();
-			// Execute a query
-			stmt = conn.createStatement();
-			String sql = "SELECT * from " + tableName;
-			rs = stmt.executeQuery(sql);
-			flag = true;
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
+	
+	/**
+	 * change raw string password to hash code, if s is already hashing, won't transform.
+	 * @param s raw string
+	 * @return hash code
+	 */
+	public static String toHash(String s) {
+		if(PersonModel.user != null && PersonModel.user.getPassword().equals(s)) {
+			return s;
 		}
-
-		return flag;
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		md.update(s.getBytes());
+		byte data[] = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < data.length; i++) {
+			sb.append(Integer.toString((data[i] & 0xff) + 0x100, 16).substring(1));
+		}
+		return sb.toString();
 	}
 
 	public void createTable() {
@@ -77,19 +85,19 @@ public class DaoModel {
 			// VARCHAR(50)," + "PRIMARY KEY ( id ))";
 			// patient table
 			String sql1 = "CREATE TABLE IF NOT EXISTS patient_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
-					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(50) not NULL, " + " age INTEGER, "
+					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// doctor table
 			String sql2 = "CREATE TABLE IF NOT EXISTS doctor_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
-					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(50) not NULL, " + " age INTEGER, "
+					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// admin table
 			String sql3 = "CREATE TABLE IF NOT EXISTS admin_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
-					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(50) not NULL, " + " age INTEGER, "
+					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
@@ -145,7 +153,7 @@ public class DaoModel {
 			String sql = "SELECT * from patient_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			rs = pstmt.executeQuery();
 			flag = rs.next();
 			int id = Integer.parseInt(rs.getObject("id").toString());
@@ -193,7 +201,7 @@ public class DaoModel {
 			sql = "INSERT INTO patient_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
 			pstmt.setString(5, user.getPhone());
@@ -224,6 +232,8 @@ public class DaoModel {
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
+			String hash = toHash(user.getPassword());
+			user.setPassword(hash);
 			pstmt.setString(2, user.getPassword());
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
@@ -460,7 +470,7 @@ public class DaoModel {
 			String sql = "SELECT * from doctor_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			rs = pstmt.executeQuery();
 			flag = rs.next();
 			int id = Integer.parseInt(rs.getObject("id").toString());
@@ -508,7 +518,7 @@ public class DaoModel {
 			sql = "INSERT INTO doctor_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
 			pstmt.setString(5, user.getPhone());
@@ -539,6 +549,8 @@ public class DaoModel {
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
+			String hash = toHash(user.getPassword());
+			user.setPassword(hash);
 			pstmt.setString(2, user.getPassword());
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
@@ -575,7 +587,7 @@ public class DaoModel {
 			String sql = "SELECT * from admin_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			rs = pstmt.executeQuery();
 			flag = rs.next();
 			int id = Integer.parseInt(rs.getObject("id").toString());
@@ -623,7 +635,7 @@ public class DaoModel {
 			sql = "INSERT INTO admin_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
 			pstmt.setString(5, user.getPhone());
@@ -654,6 +666,8 @@ public class DaoModel {
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
+			String hash = toHash(user.getPassword());
+			user.setPassword(hash);
 			pstmt.setString(2, user.getPassword());
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
