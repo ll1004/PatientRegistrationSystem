@@ -14,27 +14,27 @@
   <children>
     <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="102.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToAddRegistrationPage">
       <image>
-        <Image url="@../../images/patient_page_registration.jpg" />
+        <Image url="@../../images/patient_page_registration.png" />
       </image>
     </ImageView>
     <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="376.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToViewRegistrationPage">
       <image>
-        <Image url="@../../images/patient_page_view.jpg" />
+        <Image url="@../../images/patient_page_view.png" />
       </image>
     </ImageView>
     <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="102.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToManageProfilePage">
       <image>
-        <Image url="@../../images/manage_profile.jpg" />
+        <Image url="@../../images/manage_profile.png" />
       </image>
     </ImageView>
     <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="376.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#logoutPatientPage">
       <image>
-        <Image url="@../../images/page_logout.jpg" />
+        <Image url="@../../images/page_logout.png" />
       </image>
     </ImageView>
-    <Label layoutX="115.0" layoutY="168.0" text="Make Appointment" onMouseClicked="#switchToAddRegistrationPage" />
-    <Label layoutX="385.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToViewRegistrationPage" />
-    <Label layoutX="120.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage" />
+    <Label layoutX="115.0" layoutY="168.0" text="Add Registration" onMouseClicked="#switchToAddRegistrationPage" />
+    <Label layoutX="385.0" layoutY="168.0" text="View Registration" onMouseClicked="#switchToViewRegistrationPage" />
+    <Label layoutX="120.0" layoutY="344.0" text="Manage Profile" onMouseClicked="#switchToManageProfilePage" />
     <Label layoutX="420.0" layoutY="344.0" text="Logout" onMouseClicked="#logoutPatientPage" />
   </children>
 </AnchorPane>
