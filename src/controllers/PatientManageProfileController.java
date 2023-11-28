@@ -115,7 +115,7 @@ public class PatientManageProfileController implements Initializable {
 		return flag;
 	}
 
-	public static boolean valitateEmail(String s) {
+	public static boolean validateEmail(String s) {
 		boolean flag = false;
 		if (s != null) {
 			flag = Pattern.matches("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$", s);
@@ -193,14 +193,14 @@ public class PatientManageProfileController implements Initializable {
 			return;
 		}
 		if (sex == null || sex.trim().equals("")) {
-			labelError.setText("Gender cannot be empty or spaces");
+			labelError.setText("Sex cannot be empty or spaces");
 			return;
 		}
 		if (email == null || email.trim().equals("")) {
 			labelError.setText("Email cannot be empty or spaces");
 			return;
 		}
-		if (!valitateEmail(email)) {
+		if (!validateEmail(email)) {
 			labelError.setText("The format of email is incorrect");
 			return;
 		}

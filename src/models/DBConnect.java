@@ -8,7 +8,7 @@ public class DBConnect {
 	// Code database URL
 	static final String DB_URL = "jdbc:mysql://localhost:3306/db1";
 	// Database credentials
-	static final String USER = "root", PASS = "123456";
+	static final String USER = "root", PASS = "Van-1988";
 
 	public Connection connect() throws SQLException {
 

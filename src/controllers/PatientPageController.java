@@ -15,8 +15,8 @@ import models.PatientModel;
 
 public class PatientPageController implements Initializable {
 	// The title of current page
-	static final String TITLE = "Patient Home";
-	static final String FXM_URL = "/views/PatientPageView.fxml";
+	public static final String TITLE = "Patient Home";
+	public static final String FXM_URL = "/views/PatientPageView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
 	static Scene scene = null;

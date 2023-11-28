@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controllers.AdminPageController">
+  <children>
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="47.0" layoutY="38.0" onMouseClicked="#switchToManagePatientPage" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../images/avatar_default.jpg" />
+      </image>
+    </ImageView>
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="238.0" layoutY="38.0" onMouseClicked="#switchToManageRegistrationPage" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../images/avatar_doctor.jpg" />
+      </image>
+    </ImageView>
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="434.0" layoutY="38.0" onMouseClicked="#switchToManageRegistrationPage" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../images/avatar_admin.jpg" />
+      </image>
+    </ImageView>
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="47.0" layoutY="212.0" onMouseClicked="#switchToManageProfilePage" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../images/manage_profile.jpg" />
+      </image>
+    </ImageView>
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="238.0" layoutY="212.0" onMouseClicked="#logoutAdminPage" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../../images/page_logout.jpg" />
+      </image>
+    </ImageView>
+    <Label layoutX="55.0" layoutY="171.0" onMouseClicked="#switchToAddRegistrationPage" text="Manage Patients" />
+    <Label layoutX="248.0" layoutY="171.0" onMouseClicked="#switchToManageRegistrationPage" text="Manage Doctors" />
+    <Label layoutX="430.0" layoutY="171.0" onMouseClicked="#switchToManageRegistrationPage" text="Manage Appointments" />
+    <Label layoutX="60.0" layoutY="348.0" onMouseClicked="#switchToManageProfilePage" text="Manage Profile" />
+    <Label layoutX="277.0" layoutY="348.0" onMouseClicked="#logoutAdminPage" text="Logout" />
+  </children>
+</AnchorPane>

@@ -1,5 +1,7 @@
 package models;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -9,6 +11,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import controllers.AdminManagePatientController;
+import controllers.AdminManageRegistrationController;
 import controllers.PatientViewRegistrationController;
 
 public class DaoModel {
@@ -33,24 +37,30 @@ public class DaoModel {
 			e.printStackTrace();
 		}
 	}
-
-	public boolean isTableExist(String tableName) {
-		boolean flag = false;
-		ResultSet rs = null;
-		try {
-			conn = new DBConnect().connect();
-			// Execute a query
-			stmt = conn.createStatement();
-			String sql = "SELECT * from " + tableName;
-			rs = stmt.executeQuery(sql);
-			flag = true;
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
+	
+	/**
+	 * change raw string password to hash code, if s is already hashing, won't transform.
+	 * @param s raw string
+	 * @return hash code
+	 */
+	public static String toHash(String s) {
+		if(PersonModel.user != null && PersonModel.user.getPassword().equals(s)) {
+			return s;
 		}
-
-		return flag;
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		md.update(s.getBytes());
+		byte data[] = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < data.length; i++) {
+			sb.append(Integer.toString((data[i] & 0xff) + 0x100, 16).substring(1));
+		}
+		return sb.toString();
 	}
 
 	public void createTable() {
@@ -75,19 +85,19 @@ public class DaoModel {
 			// VARCHAR(50)," + "PRIMARY KEY ( id ))";
 			// patient table
 			String sql1 = "CREATE TABLE IF NOT EXISTS patient_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
-					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(50) not NULL, " + " age INTEGER, "
+					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// doctor table
 			String sql2 = "CREATE TABLE IF NOT EXISTS doctor_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
-					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(50) not NULL, " + " age INTEGER, "
+					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// admin table
 			String sql3 = "CREATE TABLE IF NOT EXISTS admin_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
-					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(50) not NULL, " + " age INTEGER, "
+					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
@@ -143,7 +153,7 @@ public class DaoModel {
 			String sql = "SELECT * from patient_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			rs = pstmt.executeQuery();
 			flag = rs.next();
 			int id = Integer.parseInt(rs.getObject("id").toString());
@@ -178,6 +188,8 @@ public class DaoModel {
 		return flag;
 	}
 
+
+
 	public boolean insertPatient(PatientModel user) {
 		try {
 			conn = new DBConnect().connect();
@@ -189,7 +201,7 @@ public class DaoModel {
 			sql = "INSERT INTO patient_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(2, toHash(user.getPassword()));
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
 			pstmt.setString(5, user.getPhone());
@@ -220,6 +232,8 @@ public class DaoModel {
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
+			String hash = toHash(user.getPassword());
+			user.setPassword(hash);
 			pstmt.setString(2, user.getPassword());
 			pstmt.setInt(3, user.getAge());
 			pstmt.setString(4, user.getSex());
@@ -272,7 +286,7 @@ public class DaoModel {
 		return ls;
 	}
 
-	public boolean insertRegistration(RegistrationModel rm) {
+	public boolean insertRegistration(AppointmentModel rm) {
 		try {
 			conn = new DBConnect().connect();
 			// Execute a query
@@ -325,6 +339,62 @@ public class DaoModel {
 		return ls;
 	}
 	
+	public ArrayList<AdminManageRegistrationController.Registration> getAllPatientRegistrationList(){
+		ResultSet rs = null;
+		ArrayList<AdminManageRegistrationController.Registration> ls = new ArrayList<>();
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve registration from registration table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id";
+			pstmt = conn.prepareStatement(sql);
+			//pstmt.setInt(1, PatientModel.user.getId());
+			rs = pstmt.executeQuery();
+			// PatientModel should be replaced by DoctorModel
+			int counter=0;
+			while (rs.next()) {
+				ls.add(new AdminManageRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+			}
+
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ls;
+	}
+	
+	public ArrayList<AdminManagePatientController.Patient> getAllPatientList(){
+		ResultSet rs = null;
+		ArrayList<AdminManagePatientController.Patient> ls = new ArrayList<>();
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve patient from patient table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT a.id, a.username AS patientName, a.sex, a.age, a.phone, a.email, a.city, a.state, a.pincode FROM patient_tab a";
+			pstmt = conn.prepareStatement(sql);
+			//pstmt.setInt(1, PatientModel.user.getId());
+			rs = pstmt.executeQuery();
+			// PatientModel should be replaced by DoctorModel
+			int counter=0;
+			while (rs.next()) {
+				ls.add(new AdminManagePatientController.Patient(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("phone").toString(),rs.getObject("email").toString(),rs.getObject("city").toString(),rs.getObject("state").toString(),rs.getObject("pincode").toString()));
+			}
+
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ls;
+	}
+	
 	public boolean cancelPatientRegistration(int id) {
 		try {
 			conn = new DBConnect().connect();
@@ -333,7 +403,30 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "UPDATE registration_tab SET status='Cancelled' where id="+id;
+			Date date = new Date(System.currentTimeMillis());
+			String d=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime());
+			sql = "UPDATE registration_tab SET status='Cancelled',updateTime=? where id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, d);
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean deletePatientRegistration(int id) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Deleting registration from the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "DELETE FROM registration_tab where id="+id;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 			conn.close();
@@ -343,4 +436,277 @@ public class DaoModel {
 			return false;
 		}
 	}
+	
+	public boolean deletePatient(int id) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Deleting patient from the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "DELETE FROM patient_tab where id="+id;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+	public boolean finishPatientRegistration(int id) {
+		try {
+			conn = new DBConnect().connect();
+			System.out.println("Finished seeing patient... ");
+			String sql = "UPDATE registration_tab SET status='finished', updateTime=? where id=?";
+			pstmt = conn.prepareStatement(sql);
+
+			// Set the current timestamp as updateTime
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(1, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean checkDoctorLogin(DoctorModel user) {
+		ResultSet rs = null;
+		boolean flag = false;
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve users from doctor table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from doctor_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT * from doctor_tab where username=? and password=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, toHash(user.getPassword()));
+			rs = pstmt.executeQuery();
+			flag = rs.next();
+			int id = Integer.parseInt(rs.getObject("id").toString());
+			String username = rs.getObject("username").toString();
+			String password = rs.getObject("password").toString();
+			int age = Integer.parseInt(rs.getObject("age").toString());
+			String sex = rs.getObject("sex").toString();
+			String phone = rs.getObject("phone").toString();
+			String email = rs.getObject("email").toString();
+			String city = rs.getObject("city").toString();
+			String state = rs.getObject("state").toString();
+			String pincode = rs.getObject("pincode").toString();
+
+			DoctorModel doctor = new DoctorModel();
+			doctor.setId(id);
+			doctor.setUsername(username);
+			doctor.setPassword(password);
+			doctor.setAge(age);
+			doctor.setSex(sex);
+			doctor.setPhone(phone);
+			doctor.setEmail(email);
+			doctor.setCity(city);
+			doctor.setState(state);
+			doctor.setPincode(pincode);
+
+			DoctorModel.user = doctor;
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+
+
+	public boolean insertDoctor(DoctorModel user) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Inserting Doctor into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "INSERT INTO doctor_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, toHash(user.getPassword()));
+			pstmt.setInt(3, user.getAge());
+			pstmt.setString(4, user.getSex());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setString(6, user.getEmail());
+			pstmt.setString(7, user.getCity());
+			pstmt.setString(8, user.getState());
+			pstmt.setString(9, user.getPincode());
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(10, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateDoctor(DoctorModel user) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Updating Doctor into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "UPDATE doctor_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
+					+ user.getId();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			String hash = toHash(user.getPassword());
+			user.setPassword(hash);
+			pstmt.setString(2, user.getPassword());
+			pstmt.setInt(3, user.getAge());
+			pstmt.setString(4, user.getSex());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setString(6, user.getEmail());
+			pstmt.setString(7, user.getCity());
+			pstmt.setString(8, user.getState());
+			pstmt.setString(9, user.getPincode());
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(10, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+			pstmt.executeUpdate();
+			conn.close();
+			DoctorModel.user = user;
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
+
+
+	//admins' functions
+	public boolean checkAdminLogin(AdminModel user) {
+		ResultSet rs = null;
+		boolean flag = false;
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve users from admin table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from admin_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT * from admin_tab where username=? and password=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, toHash(user.getPassword()));
+			rs = pstmt.executeQuery();
+			flag = rs.next();
+			int id = Integer.parseInt(rs.getObject("id").toString());
+			String username = rs.getObject("username").toString();
+			String password = rs.getObject("password").toString();
+			int age = Integer.parseInt(rs.getObject("age").toString());
+			String sex = rs.getObject("sex").toString();
+			String phone = rs.getObject("phone").toString();
+			String email = rs.getObject("email").toString();
+			String city = rs.getObject("city").toString();
+			String state = rs.getObject("state").toString();
+			String pincode = rs.getObject("pincode").toString();
+
+			AdminModel admin = new AdminModel();
+			admin.setId(id);
+			admin.setUsername(username);
+			admin.setPassword(password);
+			admin.setAge(age);
+			admin.setSex(sex);
+			admin.setPhone(phone);
+			admin.setEmail(email);
+			admin.setCity(city);
+			admin.setState(state);
+			admin.setPincode(pincode);
+
+			AdminModel.user = admin;
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+
+
+	public boolean insertAdmin(AdminModel user) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Inserting Admin into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "INSERT INTO admin_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, toHash(user.getPassword()));
+			pstmt.setInt(3, user.getAge());
+			pstmt.setString(4, user.getSex());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setString(6, user.getEmail());
+			pstmt.setString(7, user.getCity());
+			pstmt.setString(8, user.getState());
+			pstmt.setString(9, user.getPincode());
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(10, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateAdmin(AdminModel user) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Updating Admin into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "UPDATE admin_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
+					+ user.getId();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			String hash = toHash(user.getPassword());
+			user.setPassword(hash);
+			pstmt.setString(2, user.getPassword());
+			pstmt.setInt(3, user.getAge());
+			pstmt.setString(4, user.getSex());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setString(6, user.getEmail());
+			pstmt.setString(7, user.getCity());
+			pstmt.setString(8, user.getState());
+			pstmt.setString(9, user.getPincode());
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(10, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+			pstmt.executeUpdate();
+			conn.close();
+			AdminModel.user = user;
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
 }
+
