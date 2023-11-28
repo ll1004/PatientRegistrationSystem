@@ -68,21 +68,9 @@ public class HomeScreenController implements Initializable {
 		System.exit(0);
 	}
 
-	//switch to new patient registration view
 	public void switchToPatient() {
 		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
 	}
 
-//switch to new doctor registration view
-	public void switchToDoctor() {
-		DoctorLoginController.controller.initScene();
-		DoctorLoginController.controller.showScene();
-	}
-
-	//switch to new Admin registration view
-	public void switchToAdmin() {
-		AdminLoginController.controller.initScene();
-		AdminLoginController.controller.showScene();
-	}
 }
