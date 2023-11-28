@@ -455,8 +455,28 @@ public class DaoModel {
 			return false;
 		}
 	}
+	public boolean finishPatientRegistration(int id) {
+		try {
+			conn = new DBConnect().connect();
+			System.out.println("Finished seeing patient... ");
+			String sql = "UPDATE registration_tab SET status='finished', updateTime=? where id=?";
+			pstmt = conn.prepareStatement(sql);
 
-	//doctor's functions
+			// Set the current timestamp as updateTime
+			Date date = new Date(System.currentTimeMillis());
+			pstmt.setString(1, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime()));
+
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean checkDoctorLogin(DoctorModel user) {
 		ResultSet rs = null;
 		boolean flag = false;

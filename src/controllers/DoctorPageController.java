@@ -58,8 +58,8 @@ public class DoctorPageController implements Initializable {
 		DoctorLoginController.controller.initScene();
 		DoctorLoginController.controller.showScene();
 	}
-	
-	public void switchToViewRegistrationPage(){
+
+	public void switchToViewRegistrationPage() {
 		DoctorViewRegistrationController.controller.initScene();
 		DoctorViewRegistrationController.controller.showScene();
 	}
@@ -69,9 +69,8 @@ public class DoctorPageController implements Initializable {
 		DoctorAddRegistrationController.controller.showScene();
 	}
 
-//???????????????
-//	public void switchToManageProfilePage() {
-//		DoctorManageProfileController.controller.initScene();
-//		DoctorManageProfileController.controller.showScene();
-//	}
+	public void switchToManageProfilePage() {
+		DoctorManageProfileController.controller.initScene();
+		DoctorManageProfileController.controller.showScene();
+	}
 }
