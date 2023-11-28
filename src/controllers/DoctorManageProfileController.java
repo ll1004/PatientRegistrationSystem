@@ -68,17 +68,17 @@ public class DoctorManageProfileController implements Initializable {
 			renderDoctorInfo();
 		}
 
-		public boolean initScene() {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource(FXM_URL));
-			try {
-				root = loader.load();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return true;
+	public boolean initScene() {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(FXM_URL));
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return true;
+	}
 
 		public boolean showScene() {
 			if (Main.stage == null || root == null) {

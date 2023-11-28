@@ -58,7 +58,6 @@ public class Main extends Application {
 			PatientViewRegistrationController patientViewRegistrationController = new PatientViewRegistrationController();
 			PatientViewRegistrationController.controller = patientViewRegistrationController;
 
-			//doctor
 			DoctorLoginController doctorLoginController = new DoctorLoginController();
 			DoctorLoginController.controller = doctorLoginController;
 
@@ -68,14 +67,11 @@ public class Main extends Application {
 			DoctorPageController doctorPageController = new DoctorPageController();
 			DoctorPageController.controller = doctorPageController;
 
-//			DoctorManageProfileController doctorManageProfileController = new DoctorManageProfileController();
-//			DoctorManageProfileController.controller = doctorManageProfileController;
-//
-//			DoctorAddRegistrationController doctorAddRegistrationController = new DoctorAddRegistrationController();
-//			DoctorAddRegistrationController.controller = doctorAddRegistrationController;
+			DoctorManageProfileController doctorManageProfileController = new DoctorManageProfileController();
+			DoctorManageProfileController.controller = doctorManageProfileController;
 
-			DoctorViewRegistrationController doctorViewRegistrationController = new DoctorViewRegistrationController();
-			DoctorViewRegistrationController.controller = doctorViewRegistrationController;
+
+
 			
 			AdminLoginController adminLoginController = new AdminLoginController();
 			AdminLoginController.controller = adminLoginController;
