@@ -234,7 +234,7 @@ public class DoctorManageProfileController implements Initializable {
 			this.pincode.setText("");
 		}
 
-		public void backPatientPage() {
+		public void backDoctorPage() {
 			DoctorPageController.controller.initScene();
 			DoctorPageController.controller.showScene();
 		}

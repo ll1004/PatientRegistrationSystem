@@ -121,33 +121,33 @@ public class DoctorViewRegistrationController extends PatientViewRegistrationCon
 //    }
 
     //finish registration
-    public void finishRegistration() {
-        Registration item = registrationTableView.getSelectionModel().getSelectedItem();
-        if (item == null) {
-            return;
-        }
-
-        if (item.getStatus().equals(Registered)) {
-            // Finish registration
-            boolean success = DaoModel.dao.finishPatientRegistration(item.getId());
-            if (success) {
-                getRegistrationInfo();
-            } else {
-                // Handle failure, show alert or log message
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to finish registration. Please try again.");
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Alert");
-            alert.setHeaderText(null);
-            alert.setContentText("This registration can't be finished");
-            alert.showAndWait();
-        }
-    }
+//    public void finishRegistration() {
+//        Registration item = registrationTableView.getSelectionModel().getSelectedItem();
+//        if (item == null) {
+//            return;
+//        }
+//
+//        if (item.getStatus().equals(Registered)) {
+//            // Finish registration
+//            boolean success = DaoModel.dao.finishPatientRegistration(item.getId());
+//            if (success) {
+//                getRegistrationInfo();
+//            } else {
+//                // Handle failure, show alert or log message
+//                Alert alert = new Alert(AlertType.ERROR);
+//                alert.setTitle("Error");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Failed to finish registration. Please try again.");
+//                alert.showAndWait();
+//            }
+//        } else {
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("Alert");
+//            alert.setHeaderText(null);
+//            alert.setContentText("This registration can't be finished");
+//            alert.showAndWait();
+//        }
+//    }
 
 
     public void backDoctorPage() {
