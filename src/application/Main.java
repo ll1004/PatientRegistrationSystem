@@ -51,6 +51,43 @@ public class Main extends Application {
 			
 			PatientViewRegistrationController patientViewRegistrationController = new PatientViewRegistrationController();
 			PatientViewRegistrationController.controller = patientViewRegistrationController;
+<<<<<<< HEAD
+
+			DoctorLoginController doctorLoginController = new DoctorLoginController();
+			DoctorLoginController.controller = doctorLoginController;
+
+			DoctorRegisterController doctorRegisterController = new DoctorRegisterController();
+			DoctorRegisterController.controller = doctorRegisterController;
+
+			DoctorPageController doctorPageController = new DoctorPageController();
+			DoctorPageController.controller = doctorPageController;
+
+			DoctorManageProfileController doctorManageProfileController = new DoctorManageProfileController();
+			DoctorManageProfileController.controller = doctorManageProfileController;
+
+			DoctorViewRegistrationController doctorViewRegistrationController = new DoctorViewRegistrationController();
+			DoctorViewRegistrationController.controller = doctorViewRegistrationController;
+
+			
+			AdminLoginController adminLoginController = new AdminLoginController();
+			AdminLoginController.controller = adminLoginController;
+			
+			AdminRegisterController adminRegisterController = new AdminRegisterController();
+			AdminRegisterController.controller = adminRegisterController;
+			
+			AdminPageController adminPageController = new AdminPageController();
+			AdminPageController.controller = adminPageController;
+			
+			AdminManageProfileController adminManageProfileController = new AdminManageProfileController();
+			AdminManageProfileController.controller = adminManageProfileController;
+			
+			AdminManageRegistrationController adminManageRegistrationController = new AdminManageRegistrationController();
+			AdminManageRegistrationController.controller = adminManageRegistrationController;
+			
+			AdminManagePatientController adminManagePatientController = new AdminManagePatientController();
+			AdminManagePatientController.controller = adminManagePatientController;
+=======
+>>>>>>> 256f54d34f8217a41c878e62549634249985c6bb
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
