@@ -17,7 +17,7 @@
         <Image url="@../../images/view_appointment.jpg" />
       </image>
     </ImageView>
-    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="376.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToViewRegistrationPage">
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="376.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#switchToManageRegistrationPage">
       <image>
         <Image url="@../../images/patient_page_view.jpg" />
       </image>
@@ -33,9 +33,9 @@
         <Image url="@../../images/page_logout.jpg" />
       </image>
     </ImageView>
-    <Label layoutX="115.0" layoutY="168.0" text="View Appointment" onMouseClicked="#switchToViewRegistrationPage" />
-    <Label layoutX="385.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToViewRegistrationPage" />
-    <Label layoutX="120.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage"   />
+    <Label layoutX="110.0" layoutY="168.0" text="View Appointment" onMouseClicked="#switchToViewRegistrationPage" />
+    <Label layoutX="373.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToManageRegistrationPage" />
+    <Label layoutX="108.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage"   />
 
     <Label layoutX="420.0" layoutY="344.0" text="Logout" onMouseClicked="#logoutDoctorPage"  />
 

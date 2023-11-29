@@ -73,7 +73,9 @@ public class Main extends Application {
 			DoctorViewRegistrationController doctorViewRegistrationController = new DoctorViewRegistrationController();
 			DoctorViewRegistrationController.controller = doctorViewRegistrationController;
 
-			
+			DoctorManageRegistrationController doctorManageRegistrationController = new DoctorManageRegistrationController();
+			DoctorManageRegistrationController.controller = doctorManageRegistrationController;
+
 			AdminLoginController adminLoginController = new AdminLoginController();
 			AdminLoginController.controller = adminLoginController;
 			

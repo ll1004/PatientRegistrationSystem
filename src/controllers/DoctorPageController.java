@@ -64,9 +64,9 @@ public class DoctorPageController implements Initializable {
 		DoctorViewRegistrationController.controller.showScene();
 	}
 
-	public void switchToAddRegistrationPage() {
-		DoctorAddRegistrationController.controller.initScene();
-		DoctorAddRegistrationController.controller.showScene();
+	public void switchToManageRegistrationPage() {
+		DoctorManageRegistrationController.controller.initScene();
+		DoctorManageRegistrationController.controller.showScene();
 	}
 
 	public void switchToManageProfilePage() {
