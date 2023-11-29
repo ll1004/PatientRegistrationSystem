@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -20,16 +22,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import models.DaoModel;
 import models.PatientModel;
-import models.AppointmentModel;
+import models.RegistrationModel;
 
 public class PatientAddRegistrationController implements Initializable {
 	// The title of current page
-	static final String TITLE = "New Patient Registration";
+	static final String TITLE = "Patient Add Registration";
 	static final String FXM_URL = "/views/PatientAddRegistrationView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
@@ -120,7 +125,7 @@ public class PatientAddRegistrationController implements Initializable {
 		}
 		Date d = new Date(System.currentTimeMillis());
 		if(reverseStringToStamp(reservationDate.getValue().toString())<d.getTime()) {
-			labelError.setText("Reservation date Cannot be earlier than current date");
+			labelError.setText("Reservation date Cannot be early than current date");
 			return;
 		}
 
@@ -133,7 +138,7 @@ public class PatientAddRegistrationController implements Initializable {
 		int key = doctor.indexOf("-");
 		int doctorId = Integer.parseInt(doctor.substring(key + 1));
 
-		AppointmentModel rm = new AppointmentModel();
+		RegistrationModel rm = new RegistrationModel();
 		rm.setPatientId(PatientModel.user.getId());
 		rm.setDoctorId(doctorId);
 		rm.setDepartment(department);

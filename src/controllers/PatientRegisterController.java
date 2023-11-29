@@ -23,7 +23,7 @@ import models.PatientModel;
 
 public class PatientRegisterController implements Initializable {
 	// The title of current page
-	static final String TITLE = "New Patient Register";
+	static final String TITLE = "Patient Register";
 	static final String FXM_URL = "/views/PatientRegisterView.fxml";
 	static final String CSS_URL = "../application/application.css";
 	static Parent root = null;
@@ -110,7 +110,7 @@ public class PatientRegisterController implements Initializable {
 		return flag;
 	}
 
-	public static boolean validateEmail(String s) {
+	public static boolean valitateEmail(String s) {
 		boolean flag = false;
 		if (s != null) {
 			flag = Pattern.matches("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$", s);
@@ -164,14 +164,14 @@ public class PatientRegisterController implements Initializable {
 			return;
 		}
 		if (sex == null || sex.trim().equals("")) {
-			registerLabelError.setText("Sex cannot be empty or spaces");
+			registerLabelError.setText("Gender cannot be empty or spaces");
 			return;
 		}
 		if (email == null || email.trim().equals("")) {
 			registerLabelError.setText("Email cannot be empty or spaces");
 			return;
 		}
-		if (!validateEmail(email)) {
+		if (!valitateEmail(email)) {
 			registerLabelError.setText("The format of email is incorrect");
 			return;
 		}

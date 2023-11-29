@@ -1,16 +1,17 @@
 package application;
 
-import controllers.*;
+import controllers.HomeScreenController;
+import controllers.PatientAddRegistrationController;
+import controllers.PatientLoginController;
+import controllers.PatientManageProfileController;
+import controllers.PatientPageController;
+import controllers.PatientRegisterController;
+import controllers.PatientViewRegistrationController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import models.DaoModel;
-
-
-
-import javafx.scene.layout.StackPane;
-
 
 public class Main extends Application {
 	public static Stage stage;
@@ -23,12 +24,7 @@ public class Main extends Application {
 //			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 //			primaryStage.setScene(scene);
 //			primaryStage.show();
-//
-
-
-			// Show the stage
-			primaryStage.show();
-
+			System.out.println("Start Application...");
 			stage = primaryStage;
 			DaoModel dao = new DaoModel();
 			DaoModel.dao = dao;
@@ -38,8 +34,6 @@ public class Main extends Application {
 			homeScreenController.initScene();
 			homeScreenController.showScene();
 
-
-			//patient
 			PatientLoginController patientLoginController = new PatientLoginController();
 			PatientLoginController.controller = patientLoginController;
 
@@ -57,6 +51,7 @@ public class Main extends Application {
 			
 			PatientViewRegistrationController patientViewRegistrationController = new PatientViewRegistrationController();
 			PatientViewRegistrationController.controller = patientViewRegistrationController;
+<<<<<<< HEAD
 
 			DoctorLoginController doctorLoginController = new DoctorLoginController();
 			DoctorLoginController.controller = doctorLoginController;
@@ -91,6 +86,8 @@ public class Main extends Application {
 			
 			AdminManagePatientController adminManagePatientController = new AdminManagePatientController();
 			AdminManagePatientController.controller = adminManagePatientController;
+=======
+>>>>>>> 256f54d34f8217a41c878e62549634249985c6bb
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

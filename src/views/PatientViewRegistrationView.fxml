@@ -17,7 +17,7 @@
     		<TableColumn prefWidth="75.0" style="-fx-alignment:center;" text="Index" fx:id="registrationColIndex" />
     		<TableColumn prefWidth="95.0" style="-fx-alignment:center;" text="Registration ID" fx:id="registrationColId" />
     		<TableColumn prefWidth="95.0" style="-fx-alignment:center;" text="Patient Name" fx:id="registrationColPatientName" />
-    		<TableColumn prefWidth="75.0" style="-fx-alignment:center;" text="Sex" fx:id="registrationColSex" />
+    		<TableColumn prefWidth="75.0" style="-fx-alignment:center;" text="Gender" fx:id="registrationColSex" />
     		<TableColumn prefWidth="75.0" style="-fx-alignment:center;" text="Age" fx:id="registrationColAge" />
     		<TableColumn prefWidth="75.0" style="-fx-alignment:center;" text="Doctor" fx:id="registrationColDoctor" />
     		<TableColumn prefWidth="80.0" style="-fx-alignment:center;" text="Department" fx:id="registrationColDepartment" />
