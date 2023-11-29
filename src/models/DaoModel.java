@@ -346,9 +346,9 @@ public class DaoModel {
 			stmt = conn.createStatement();
 			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id where doctorId=?";
 			pstmt = conn.prepareStatement(sql);
-			//pstmt.setInt(1, PatientModel.user.getId());
+			pstmt.setInt(1, DoctorModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
 			int counter=0;
