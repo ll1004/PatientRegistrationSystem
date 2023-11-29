@@ -110,7 +110,6 @@ public class AdminManageDoctorController implements Initializable {
 		registrationColPincode.setCellValueFactory(new PropertyValueFactory<>("pincode"));
 	}
 
-
 	public void getDoctorInfo() {
 		ArrayList<Doctor> ls = DaoModel.dao.getAllDoctorListAdmin();
 		ObservableList<Doctor> data = FXCollections.observableArrayList();
@@ -149,7 +148,7 @@ public class AdminManageDoctorController implements Initializable {
 		private final SimpleStringProperty pincode;
 
 		public Doctor(int index, int id, String doctorName, String sex, int age, String phone, String email,
-					  String city, String state, String pincode) {
+				String city, String state, String pincode) {
 			this.index = new SimpleIntegerProperty(index);
 			this.id = new SimpleIntegerProperty(id);
 			this.doctorName = new SimpleStringProperty(doctorName);

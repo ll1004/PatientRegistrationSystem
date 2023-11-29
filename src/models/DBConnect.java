@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnect {
 	// Code database URL
-	static final String DB_URL = "jdbc:mysql://localhost:3306/db1";
+	static final String DB_URL = "jdbc:mysql://www.papademas.net:3307/510fp?autoReconnect=true&useSSL=false";
 	// Database credentials
-	static final String USER = "root", PASS = "Van-1988";
+	static final String USER = "fp510", PASS = "510";
 
 	public Connection connect() throws SQLException {
 

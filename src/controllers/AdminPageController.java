@@ -1,16 +1,16 @@
 
 package controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import application.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import models.AdminModel;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class AdminPageController implements Initializable {
 	// The title of current page
@@ -58,31 +58,25 @@ public class AdminPageController implements Initializable {
 		AdminLoginController.controller.initScene();
 		AdminLoginController.controller.showScene();
 	}
-	
-	public void switchToManageRegistrationPage(){
+
+	public void switchToManageRegistrationPage() {
 		AdminManageRegistrationController.controller.initScene();
 		AdminManageRegistrationController.controller.showScene();
-	}
-
-	public void switchToAddRegistrationPage() {
-		AdminAddRegistrationController.controller.initScene();
-		AdminAddRegistrationController.controller.showScene();
 	}
 
 	public void switchToManageProfilePage() {
 		AdminManageProfileController.controller.initScene();
 		AdminManageProfileController.controller.showScene();
 	}
-	
-	public void switchToManagePatientPage(){
+
+	public void switchToManagePatientPage() {
 		AdminManagePatientController.controller.initScene();
 		AdminManagePatientController.controller.showScene();
 	}
 
-	public void switchToManageDoctorPage(){
+	public void switchToManageDoctorPage() {
 		AdminManageDoctorController.controller.initScene();
 		AdminManageDoctorController.controller.showScene();
-		}
-
+	}
 
 }

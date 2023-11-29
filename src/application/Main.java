@@ -1,16 +1,28 @@
 package application;
 
-import controllers.*;
+import controllers.AdminLoginController;
+import controllers.AdminManageDoctorController;
+import controllers.AdminManagePatientController;
+import controllers.AdminManageProfileController;
+import controllers.AdminManageRegistrationController;
+import controllers.AdminPageController;
+import controllers.AdminRegisterController;
+import controllers.DoctorLoginController;
+import controllers.DoctorManageProfileController;
+import controllers.DoctorManageRegistrationController;
+import controllers.DoctorPageController;
+import controllers.DoctorRegisterController;
+import controllers.DoctorViewRegistrationController;
+import controllers.HomeScreenController;
+import controllers.PatientAddRegistrationController;
+import controllers.PatientLoginController;
+import controllers.PatientManageProfileController;
+import controllers.PatientPageController;
+import controllers.PatientRegisterController;
+import controllers.PatientViewRegistrationController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import models.DaoModel;
-
-
-
-import javafx.scene.layout.StackPane;
-
 
 public class Main extends Application {
 	public static Stage stage;
@@ -18,14 +30,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-//			BorderPane root = new BorderPane();
-//			Scene scene = new Scene(root,400,400);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//			primaryStage.setScene(scene);
-//			primaryStage.show();
-//
-
-
 			// Show the stage
 			primaryStage.show();
 
@@ -38,8 +42,7 @@ public class Main extends Application {
 			homeScreenController.initScene();
 			homeScreenController.showScene();
 
-
-			//patient
+			// patient
 			PatientLoginController patientLoginController = new PatientLoginController();
 			PatientLoginController.controller = patientLoginController;
 
@@ -54,7 +57,7 @@ public class Main extends Application {
 
 			PatientAddRegistrationController patientAddRegistrationController = new PatientAddRegistrationController();
 			PatientAddRegistrationController.controller = patientAddRegistrationController;
-			
+
 			PatientViewRegistrationController patientViewRegistrationController = new PatientViewRegistrationController();
 			PatientViewRegistrationController.controller = patientViewRegistrationController;
 
@@ -78,19 +81,19 @@ public class Main extends Application {
 
 			AdminLoginController adminLoginController = new AdminLoginController();
 			AdminLoginController.controller = adminLoginController;
-			
+
 			AdminRegisterController adminRegisterController = new AdminRegisterController();
 			AdminRegisterController.controller = adminRegisterController;
-			
+
 			AdminPageController adminPageController = new AdminPageController();
 			AdminPageController.controller = adminPageController;
-			
+
 			AdminManageProfileController adminManageProfileController = new AdminManageProfileController();
 			AdminManageProfileController.controller = adminManageProfileController;
-			
+
 			AdminManageRegistrationController adminManageRegistrationController = new AdminManageRegistrationController();
 			AdminManageRegistrationController.controller = adminManageRegistrationController;
-			
+
 			AdminManagePatientController adminManagePatientController = new AdminManagePatientController();
 			AdminManagePatientController.controller = adminManagePatientController;
 

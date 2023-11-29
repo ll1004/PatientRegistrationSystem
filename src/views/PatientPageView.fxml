@@ -32,9 +32,9 @@
         <Image url="@../../images/page_logout.jpg" />
       </image>
     </ImageView>
-    <Label layoutX="115.0" layoutY="168.0" text="Make Appointment" onMouseClicked="#switchToAddRegistrationPage" />
-    <Label layoutX="385.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToViewRegistrationPage" />
-    <Label layoutX="120.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage" />
+    <Label layoutX="110.0" layoutY="168.0" text="Make Appointment" onMouseClicked="#switchToAddRegistrationPage" />
+    <Label layoutX="375.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToViewRegistrationPage" />
+    <Label layoutX="110.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage" />
     <Label layoutX="420.0" layoutY="344.0" text="Logout" onMouseClicked="#logoutPatientPage" />
   </children>
 </AnchorPane>

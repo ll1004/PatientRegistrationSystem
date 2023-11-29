@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.Main;
-import controllers.AdminManageRegistrationController.Registration;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -62,7 +61,7 @@ public class AdminManagePatientController implements Initializable {
 
 	@FXML
 	private TableColumn<Patient, ?> registrationColState;
-	
+
 	@FXML
 	private TableColumn<Patient, ?> registrationColPincode;
 
@@ -140,7 +139,7 @@ public class AdminManagePatientController implements Initializable {
 		AdminPageController.controller.showScene();
 	}
 
-	public static class Patient{
+	public static class Patient {
 		private final SimpleIntegerProperty index;
 		private final SimpleIntegerProperty id;
 		private final SimpleStringProperty patientName;
@@ -152,8 +151,8 @@ public class AdminManagePatientController implements Initializable {
 		private final SimpleStringProperty state;
 		private final SimpleStringProperty pincode;
 
-		public Patient(int index, int id, String patientName, String sex, int age, String phone,
-				String email, String city, String state, String pincode) {
+		public Patient(int index, int id, String patientName, String sex, int age, String phone, String email,
+				String city, String state, String pincode) {
 			this.index = new SimpleIntegerProperty(index);
 			this.id = new SimpleIntegerProperty(id);
 			this.patientName = new SimpleStringProperty(patientName);
@@ -201,7 +200,7 @@ public class AdminManagePatientController implements Initializable {
 		public String getState() {
 			return state.get();
 		}
-		
+
 		public String getPincode() {
 			return pincode.get();
 		}

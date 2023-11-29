@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.Main;
-import controllers.PatientViewRegistrationController.Registration;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,9 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.DaoModel;
 
@@ -122,13 +121,23 @@ public class DoctorManageRegistrationController implements Initializable {
         this.registrationTableView.setItems(data);
     }
     public void finishRegistration(){
-        System.out.println("registration finished");
-
-//        Registration item = registrationTableView.getSelectionModel().getSelectedItem();
-
-//        item.setPatientStatus("Finished");
-
-        deleteRegistration();
+    	Registration item = registrationTableView.getSelectionModel().getSelectedItem();
+    	if(item==null) {
+			return;
+		}
+    	if(item.status.get().equals(Registered)) {
+			//change status
+			boolean flag = DaoModel.dao.completePatientRegistration(item.id.get());
+			if(flag) {
+				getRegistrationInfo();
+			}
+		} else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Alert");
+			alert.setHeaderText(null);
+			alert.setContentText("This registration can't be finished");
+			alert.showAndWait();
+		}
     }
     public void deleteRegistration() {
         Registration item = registrationTableView.getSelectionModel().getSelectedItem();

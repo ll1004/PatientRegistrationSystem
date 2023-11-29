@@ -11,8 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 
 public class HomeScreenController implements Initializable {
 	// The title of current page
@@ -68,7 +66,7 @@ public class HomeScreenController implements Initializable {
 		System.exit(0);
 	}
 
-	//switch to new patient registration view
+	// switch to new patient registration view
 	public void switchToPatient() {
 		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
@@ -80,7 +78,7 @@ public class HomeScreenController implements Initializable {
 		DoctorLoginController.controller.showScene();
 	}
 
-	//switch to new Admin registration view
+	// switch to new Admin registration view
 	public void switchToAdmin() {
 		AdminLoginController.controller.initScene();
 		AdminLoginController.controller.showScene();

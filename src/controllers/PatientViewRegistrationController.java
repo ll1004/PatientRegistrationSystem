@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -17,9 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.DaoModel;
 
@@ -34,44 +33,44 @@ public class PatientViewRegistrationController implements Initializable {
 	public static PatientViewRegistrationController controller = null;
 	public static final String Cancelled = "Cancelled";
 	public static final String Registered = "Registered";
-	
+
 	@FXML
 	private TableView<Registration> registrationTableView;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColIndex;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColId;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColPatientName;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColSex;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColAge;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColDoctor;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColDepartment;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColStatus;
-	
+
 	@FXML
 	private TableColumn<Registration, ?> registrationColReservationDate;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		initRegistrationTable();
 		getRegistrationInfo();
 	}
-	
+
 	public boolean initScene() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(FXM_URL));
@@ -95,8 +94,8 @@ public class PatientViewRegistrationController implements Initializable {
 		Main.stage.show();
 		return true;
 	}
-	
-	public void initRegistrationTable(){
+
+	public void initRegistrationTable() {
 		registrationColIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
 		registrationColId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		registrationColPatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
@@ -107,28 +106,30 @@ public class PatientViewRegistrationController implements Initializable {
 		registrationColStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 		registrationColReservationDate.setCellValueFactory(new PropertyValueFactory<>("reservationDate"));
 	}
-	
-	public void getRegistrationInfo(){
+
+	public void getRegistrationInfo() {
 		ArrayList<PatientViewRegistrationController.Registration> ls = DaoModel.dao.getCurrentPatientRegistrationList();
 		ObservableList<Registration> data = FXCollections.observableArrayList(
-				//new Registration(1, 4, "Patient1", "Male", 27, "Doctor Lee", "DP1", "Registered", date.toString()),
-				//new Registration(2, 5, "Patient2", "Male", 32, "Doctor Lee", "DP1", "Registered", date.toString())
-				);
-		for(PatientViewRegistrationController.Registration i:ls) {
+		// new Registration(1, 4, "Patient1", "Male", 27, "Doctor Lee", "DP1",
+		// "Registered", date.toString()),
+		// new Registration(2, 5, "Patient2", "Male", 32, "Doctor Lee", "DP1",
+		// "Registered", date.toString())
+		);
+		for (PatientViewRegistrationController.Registration i : ls) {
 			data.add(i);
 		}
 		this.registrationTableView.setItems(data);
 	}
-	
+
 	public void cancelRegistration() {
 		Registration item = registrationTableView.getSelectionModel().getSelectedItem();
-		if(item==null) {
+		if (item == null) {
 			return;
 		}
-		if(item.status.get().equals(Registered)) {
-			//change status
+		if (item.status.get().equals(Registered)) {
+			// change status
 			boolean flag = DaoModel.dao.cancelPatientRegistration(item.id.get());
-			if(flag) {
+			if (flag) {
 				getRegistrationInfo();
 			}
 		} else {
@@ -139,13 +140,13 @@ public class PatientViewRegistrationController implements Initializable {
 			alert.showAndWait();
 		}
 	}
-	
+
 	public void backPatientPage() {
 		PatientPageController.controller.initScene();
 		PatientPageController.controller.showScene();
 	}
-	
-	public static class Registration{
+
+	public static class Registration {
 		private final SimpleIntegerProperty index;
 		private final SimpleIntegerProperty id;
 		private final SimpleStringProperty patientName;
@@ -155,8 +156,9 @@ public class PatientViewRegistrationController implements Initializable {
 		private final SimpleStringProperty department;
 		private final SimpleStringProperty status;
 		private final SimpleStringProperty reservationDate;
-		
-		public Registration(int index,int id,String patientName,String sex,int age,String doctorName,String department,String status,String reservationDate) {
+
+		public Registration(int index, int id, String patientName, String sex, int age, String doctorName,
+				String department, String status, String reservationDate) {
 			this.index = new SimpleIntegerProperty(index);
 			this.id = new SimpleIntegerProperty(id);
 			this.patientName = new SimpleStringProperty(patientName);

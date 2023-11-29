@@ -11,14 +11,18 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import controllers.*;
+import controllers.AdminManageDoctorController;
+import controllers.AdminManagePatientController;
+import controllers.AdminManageRegistrationController;
+import controllers.DoctorManageRegistrationController;
+import controllers.DoctorViewRegistrationController;
+import controllers.PatientViewRegistrationController;
 
 public class DaoModel {
 	Connection conn = null;
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
 	public static DaoModel dao = null;
-	public static boolean createTableFlag = false;
 	public static final String[] departmentList = { "Cardiology", "Nephrology", "Gastroenterology", "Rheumatology",
 			"Hematology", "Infectious Diseases", "Pulmonology", "Surgery", "Neurosurgery", "Cardiothoracic Surgery",
 			"Urology", "Orthopedics", "Obstetrics and Gynecology", "Pediatrics", "Ophthalmology",
@@ -35,14 +39,16 @@ public class DaoModel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * change raw string password to hash code, if s is already hashing, won't transform.
+	 * change raw string password to hash code, if s is already hashing, won't
+	 * transform.
+	 * 
 	 * @param s raw string
 	 * @return hash code
 	 */
 	public static String toHash(String s) {
-		if(PersonModel.user != null && PersonModel.user.getPassword().equals(s)) {
+		if (PersonModel.user != null && PersonModel.user.getPassword().equals(s)) {
 			return s;
 		}
 		MessageDigest md = null;
@@ -62,12 +68,6 @@ public class DaoModel {
 	}
 
 	public void createTable() {
-		if (createTableFlag == true) {
-			return;
-		}
-		if (createTableFlag == false) {
-			createTableFlag = true;
-		}
 		try {
 			conn = new DBConnect().connect();
 			// Open a connection
@@ -77,41 +77,36 @@ public class DaoModel {
 			System.out.println("Creating table in given database...");
 
 			stmt = conn.createStatement();
-			// department table
-			// String sql1 = "CREATE TABLE department_tab " + "(id INTEGER not NULL
-			// AUTO_INCREMENT, "+ "name VARCHAR(255) not NULL UNIQUE, " + " createTime
-			// VARCHAR(50)," + "PRIMARY KEY ( id ))";
 			// patient table
-			String sql1 = "CREATE TABLE IF NOT EXISTS patient_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
+			String sql1 = "CREATE TABLE IF NOT EXISTS lf_patient_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
 					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// doctor table
-			String sql2 = "CREATE TABLE IF NOT EXISTS doctor_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
+			String sql2 = "CREATE TABLE IF NOT EXISTS lf_doctor_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
 					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// admin table
-			String sql3 = "CREATE TABLE IF NOT EXISTS admin_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
+			String sql3 = "CREATE TABLE IF NOT EXISTS lf_admin_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
 					+ " username VARCHAR(50) not NULL UNIQUE, " + " password VARCHAR(64) not NULL, " + " age INTEGER, "
 					+ " sex VARCHAR(10), " + " phone VARCHAR(50), " + " email VARCHAR(50), " + " city VARCHAR(50), "
 					+ " state VARCHAR(50), " + " pincode VARCHAR(50), " + " createTime VARCHAR(50),"
 					+ " updateTime VARCHAR(50)," + " PRIMARY KEY ( id ))";
 			// registration table
-			String sql4 = "CREATE TABLE IF NOT EXISTS registration_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
+			String sql4 = "CREATE TABLE IF NOT EXISTS lf_registration_tab " + "(id INTEGER not NULL AUTO_INCREMENT, "
 					+ "patientId INTEGER not NULL, " + "doctorId INTEGER not NULL, "
 					+ "department VARCHAR(255) not NULL, " + " status VARCHAR(50), " + " reservationDate VARCHAR(50), "
 					+ " createTime VARCHAR(50)," + "updateTime VARCHAR(50),"
-					+ " PRIMARY KEY ( id ), FOREIGN KEY (patientId) REFERENCES patient_tab(id), FOREIGN KEY (doctorId) REFERENCES doctor_tab(id) )";
+					+ " PRIMARY KEY ( id ), FOREIGN KEY (patientId) REFERENCES lf_patient_tab(id), FOREIGN KEY (doctorId) REFERENCES lf_doctor_tab(id) )";
 			stmt.executeUpdate(sql1);
 			stmt.executeUpdate(sql2);
 			stmt.executeUpdate(sql3);
 			stmt.executeUpdate(sql4);
 			System.out.println("Created table in given database...");
 			conn.close();
-			// initDepartmentTableValue();
 		} catch (SQLException se) { // Handle errors for JDBC
 			se.printStackTrace();
 		}
@@ -146,9 +141,10 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve users from patient table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT * from patient_tab where username=? and password=?";
+			String sql = "SELECT * from lf_patient_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, toHash(user.getPassword()));
@@ -186,8 +182,6 @@ public class DaoModel {
 		return flag;
 	}
 
-
-
 	public boolean insertPatient(PatientModel user) {
 		try {
 			conn = new DBConnect().connect();
@@ -196,7 +190,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "INSERT INTO patient_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+			sql = "INSERT INTO lf_patient_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, toHash(user.getPassword()));
@@ -226,7 +220,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "UPDATE patient_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
+			sql = "UPDATE lf_patient_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
@@ -260,9 +254,10 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve users from patient table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT * from doctor_tab ";
+			String sql = "SELECT * from lf_doctor_tab ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
@@ -292,7 +287,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "INSERT INTO registration_tab ( patientId, doctorId, department, status, reservationDate, createTime ) VALUES ( ?, ?, ?, ?, ?, ? ) ";
+			sql = "INSERT INTO lf_registration_tab ( patientId, doctorId, department, status, reservationDate, createTime ) VALUES ( ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, rm.getPatientId());
 			pstmt.setInt(2, rm.getDoctorId());
@@ -308,7 +303,7 @@ public class DaoModel {
 			return false;
 		}
 	}
-	
+
 	public ArrayList<PatientViewRegistrationController.Registration> getCurrentPatientRegistrationList() {
 		ResultSet rs = null;
 		ArrayList<PatientViewRegistrationController.Registration> ls = new ArrayList<>();
@@ -317,16 +312,21 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve registration from registration table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id where patientId=?";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM lf_registration_tab a LEFT JOIN lf_patient_tab b ON a.patientId=b.id LEFT JOIN lf_doctor_tab c ON a.doctorId=c.id where patientId=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, PatientModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
-			int counter=0;
+			int counter = 0;
 			while (rs.next()) {
-				ls.add(new PatientViewRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+				ls.add(new PatientViewRegistrationController.Registration(++counter,
+						Integer.parseInt(rs.getObject("id").toString()), rs.getObject("patientName").toString(),
+						rs.getObject("sex").toString(), Integer.parseInt(rs.getObject("age").toString()),
+						rs.getObject("doctorName").toString(), rs.getObject("department").toString(),
+						rs.getObject("status").toString(), rs.getObject("reservationDate").toString()));
 			}
 
 			conn.close();
@@ -336,7 +336,8 @@ public class DaoModel {
 		}
 		return ls;
 	}
-	public ArrayList<DoctorManageRegistrationController.Registration> getAllPatientRegistrationListDoctor(){
+
+	public ArrayList<DoctorManageRegistrationController.Registration> getAllPatientRegistrationListDoctor() {
 		ResultSet rs = null;
 		ArrayList<DoctorManageRegistrationController.Registration> ls = new ArrayList<>();
 		try {
@@ -344,16 +345,21 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve registration from registration table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id where doctorId=?";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM lf_registration_tab a LEFT JOIN lf_patient_tab b ON a.patientId=b.id LEFT JOIN lf_doctor_tab c ON a.doctorId=c.id where doctorId=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, DoctorModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
-			int counter=0;
+			int counter = 0;
 			while (rs.next()) {
-				ls.add(new DoctorManageRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+				ls.add(new DoctorManageRegistrationController.Registration(++counter,
+						Integer.parseInt(rs.getObject("id").toString()), rs.getObject("patientName").toString(),
+						rs.getObject("sex").toString(), Integer.parseInt(rs.getObject("age").toString()),
+						rs.getObject("doctorName").toString(), rs.getObject("department").toString(),
+						rs.getObject("status").toString(), rs.getObject("reservationDate").toString()));
 			}
 
 			conn.close();
@@ -364,7 +370,7 @@ public class DaoModel {
 		return ls;
 	}
 
-	public ArrayList<DoctorViewRegistrationController.Registration> getAllPatientRegistrationListDoctorView(){
+	public ArrayList<DoctorViewRegistrationController.Registration> getAllPatientRegistrationListDoctorView() {
 		ResultSet rs = null;
 		ArrayList<DoctorViewRegistrationController.Registration> ls = new ArrayList<>();
 		try {
@@ -372,16 +378,21 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve registration from registration table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM lf_registration_tab a LEFT JOIN lf_patient_tab b ON a.patientId=b.id LEFT JOIN lf_doctor_tab c ON a.doctorId=c.id";
 			pstmt = conn.prepareStatement(sql);
-			//pstmt.setInt(1, PatientModel.user.getId());
+			// pstmt.setInt(1, PatientModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
-			int counter=0;
+			int counter = 0;
 			while (rs.next()) {
-				ls.add(new DoctorViewRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+				ls.add(new DoctorViewRegistrationController.Registration(++counter,
+						Integer.parseInt(rs.getObject("id").toString()), rs.getObject("patientName").toString(),
+						rs.getObject("sex").toString(), Integer.parseInt(rs.getObject("age").toString()),
+						rs.getObject("doctorName").toString(), rs.getObject("department").toString(),
+						rs.getObject("status").toString(), rs.getObject("reservationDate").toString()));
 			}
 
 			conn.close();
@@ -391,7 +402,8 @@ public class DaoModel {
 		}
 		return ls;
 	}
-	public ArrayList<AdminManageRegistrationController.Registration> getAllPatientRegistrationList(){
+
+	public ArrayList<AdminManageRegistrationController.Registration> getAllPatientRegistrationList() {
 		ResultSet rs = null;
 		ArrayList<AdminManageRegistrationController.Registration> ls = new ArrayList<>();
 		try {
@@ -399,16 +411,21 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve registration from registration table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM lf_registration_tab a LEFT JOIN lf_patient_tab b ON a.patientId=b.id LEFT JOIN lf_doctor_tab c ON a.doctorId=c.id";
 			pstmt = conn.prepareStatement(sql);
-			//pstmt.setInt(1, PatientModel.user.getId());
+			// pstmt.setInt(1, PatientModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
-			int counter=0;
+			int counter = 0;
 			while (rs.next()) {
-				ls.add(new AdminManageRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+				ls.add(new AdminManageRegistrationController.Registration(++counter,
+						Integer.parseInt(rs.getObject("id").toString()), rs.getObject("patientName").toString(),
+						rs.getObject("sex").toString(), Integer.parseInt(rs.getObject("age").toString()),
+						rs.getObject("doctorName").toString(), rs.getObject("department").toString(),
+						rs.getObject("status").toString(), rs.getObject("reservationDate").toString()));
 			}
 
 			conn.close();
@@ -418,8 +435,8 @@ public class DaoModel {
 		}
 		return ls;
 	}
-	
-	public ArrayList<AdminManagePatientController.Patient> getAllPatientList(){
+
+	public ArrayList<AdminManagePatientController.Patient> getAllPatientList() {
 		ResultSet rs = null;
 		ArrayList<AdminManagePatientController.Patient> ls = new ArrayList<>();
 		try {
@@ -427,16 +444,22 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve patient from patient table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, a.username AS patientName, a.sex, a.age, a.phone, a.email, a.city, a.state, a.pincode FROM patient_tab a";
+			String sql = "SELECT a.id, a.username AS patientName, a.sex, a.age, a.phone, a.email, a.city, a.state, a.pincode FROM lf_patient_tab a";
 			pstmt = conn.prepareStatement(sql);
-			//pstmt.setInt(1, PatientModel.user.getId());
+			// pstmt.setInt(1, PatientModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
-			int counter=0;
+			int counter = 0;
 			while (rs.next()) {
-				ls.add(new AdminManagePatientController.Patient(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("phone").toString(),rs.getObject("email").toString(),rs.getObject("city").toString(),rs.getObject("state").toString(),rs.getObject("pincode").toString()));
+				ls.add(new AdminManagePatientController.Patient(++counter,
+						Integer.parseInt(rs.getObject("id").toString()), rs.getObject("patientName").toString(),
+						rs.getObject("sex").toString(), Integer.parseInt(rs.getObject("age").toString()),
+						rs.getObject("phone").toString(), rs.getObject("email").toString(),
+						rs.getObject("city").toString(), rs.getObject("state").toString(),
+						rs.getObject("pincode").toString()));
 			}
 
 			conn.close();
@@ -446,18 +469,18 @@ public class DaoModel {
 		}
 		return ls;
 	}
-	
+
 	public boolean cancelPatientRegistration(int id) {
 		try {
 			conn = new DBConnect().connect();
 			// Execute a query
-			System.out.println("Updating Patient into the table...");
+			System.out.println("Updating Registration into the table...");
 			String sql = null;
 
 			// Include all object data to the database table
 			Date date = new Date(System.currentTimeMillis());
-			String d=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime());
-			sql = "UPDATE registration_tab SET status='Cancelled',updateTime=? where id=?";
+			String d = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime());
+			sql = "UPDATE lf_registration_tab SET status='Cancelled',updateTime=? where id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, d);
 			pstmt.setInt(2, id);
@@ -469,7 +492,30 @@ public class DaoModel {
 			return false;
 		}
 	}
-	
+
+	public boolean completePatientRegistration(int id) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Updating Registration into the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			Date date = new Date(System.currentTimeMillis());
+			String d = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date.getTime());
+			sql = "UPDATE lf_registration_tab SET status='Finished',updateTime=? where id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, d);
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean deletePatientRegistration(int id) {
 		try {
 			conn = new DBConnect().connect();
@@ -478,7 +524,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "DELETE FROM registration_tab where id="+id;
+			sql = "DELETE FROM lf_registration_tab where id=" + id;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 			conn.close();
@@ -488,7 +534,7 @@ public class DaoModel {
 			return false;
 		}
 	}
-	
+
 	public boolean deletePatient(int id) {
 		try {
 			conn = new DBConnect().connect();
@@ -497,7 +543,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "DELETE FROM patient_tab where id="+id;
+			sql = "DELETE FROM lf_patient_tab where id=" + id;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 			conn.close();
@@ -507,11 +553,12 @@ public class DaoModel {
 			return false;
 		}
 	}
+
 	public boolean finishPatientRegistration(int id) {
 		try {
 			conn = new DBConnect().connect();
 			System.out.println("Finished seeing patient... ");
-			String sql = "UPDATE registration_tab SET status='finished', updateTime=? where id=?";
+			String sql = "UPDATE lf_registration_tab SET status='finished', updateTime=? where id=?";
 			pstmt = conn.prepareStatement(sql);
 
 			// Set the current timestamp as updateTime
@@ -537,9 +584,10 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve users from doctor table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from doctor_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_doctor_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT * from doctor_tab where username=? and password=?";
+			String sql = "SELECT * from lf_doctor_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, toHash(user.getPassword()));
@@ -577,8 +625,6 @@ public class DaoModel {
 		return flag;
 	}
 
-
-
 	public boolean insertDoctor(DoctorModel user) {
 		try {
 			conn = new DBConnect().connect();
@@ -587,7 +633,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "INSERT INTO doctor_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+			sql = "INSERT INTO lf_doctor_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, toHash(user.getPassword()));
@@ -617,7 +663,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "UPDATE doctor_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
+			sql = "UPDATE lf_doctor_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
@@ -643,9 +689,7 @@ public class DaoModel {
 		}
 	}
 
-
-
-	//admins' functions
+	// admins' functions
 	public boolean checkAdminLogin(AdminModel user) {
 		ResultSet rs = null;
 		boolean flag = false;
@@ -654,9 +698,10 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve users from admin table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from admin_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_admin_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT * from admin_tab where username=? and password=?";
+			String sql = "SELECT * from lf_admin_tab where username=? and password=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, toHash(user.getPassword()));
@@ -694,8 +739,6 @@ public class DaoModel {
 		return flag;
 	}
 
-
-
 	public boolean insertAdmin(AdminModel user) {
 		try {
 			conn = new DBConnect().connect();
@@ -704,7 +747,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "INSERT INTO admin_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+			sql = "INSERT INTO lf_admin_tab ( username, password, age, sex, phone, email, city, state, pincode, createTime ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, toHash(user.getPassword()));
@@ -734,7 +777,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "UPDATE admin_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
+			sql = "UPDATE lf_admin_tab SET username=?, password=?, age=?, sex=?, phone=?, email=?, city=?, state=?, pincode=?, updateTime=? where id = "
 					+ user.getId();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUsername());
@@ -759,6 +802,7 @@ public class DaoModel {
 			return false;
 		}
 	}
+
 	public boolean deleteDoctor(int id) {
 		try {
 			conn = new DBConnect().connect();
@@ -767,7 +811,7 @@ public class DaoModel {
 			String sql = null;
 
 			// Include all object data to the database table
-			sql = "DELETE FROM doctor_tab where id="+id;
+			sql = "DELETE FROM lf_doctor_tab where id=" + id;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 			conn.close();
@@ -778,7 +822,7 @@ public class DaoModel {
 		}
 	}
 
-	public ArrayList<AdminManageDoctorController.Doctor> getAllDoctorListAdmin(){
+	public ArrayList<AdminManageDoctorController.Doctor> getAllDoctorListAdmin() {
 		ResultSet rs = null;
 		ArrayList<AdminManageDoctorController.Doctor> ls = new ArrayList<>();
 		try {
@@ -786,16 +830,22 @@ public class DaoModel {
 			// Execute a query
 			System.out.println("retrieve doctor from doctor table...");
 			stmt = conn.createStatement();
-			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// String sql = "SELECT * from lf_patient_tab where username='"+
+			// user.getUsername()
 			// +"' and password='"+user.getPassword()+"' order by createTime desc";
-			String sql = "SELECT a.id, a.username AS doctorName, a.sex, a.age, a.phone, a.email, a.city, a.state, a.pincode FROM doctor_tab a";
+			String sql = "SELECT a.id, a.username AS doctorName, a.sex, a.age, a.phone, a.email, a.city, a.state, a.pincode FROM lf_doctor_tab a";
 			pstmt = conn.prepareStatement(sql);
-			//pstmt.setInt(1, PatientModel.user.getId());
+			// pstmt.setInt(1, PatientModel.user.getId());
 			rs = pstmt.executeQuery();
 			// PatientModel should be replaced by DoctorModel
-			int counter=0;
+			int counter = 0;
 			while (rs.next()) {
-				ls.add(new AdminManageDoctorController.Doctor(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("doctorName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("phone").toString(),rs.getObject("email").toString(),rs.getObject("city").toString(),rs.getObject("state").toString(),rs.getObject("pincode").toString()));
+				ls.add(new AdminManageDoctorController.Doctor(++counter,
+						Integer.parseInt(rs.getObject("id").toString()), rs.getObject("doctorName").toString(),
+						rs.getObject("sex").toString(), Integer.parseInt(rs.getObject("age").toString()),
+						rs.getObject("phone").toString(), rs.getObject("email").toString(),
+						rs.getObject("city").toString(), rs.getObject("state").toString(),
+						rs.getObject("pincode").toString()));
 			}
 
 			conn.close();
@@ -806,6 +856,4 @@ public class DaoModel {
 		return ls;
 	}
 
-
 }
-

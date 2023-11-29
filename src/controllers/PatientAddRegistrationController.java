@@ -17,15 +17,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import models.AppointmentModel;
 import models.DaoModel;
 import models.PatientModel;
-import models.AppointmentModel;
 
 public class PatientAddRegistrationController implements Initializable {
 	// The title of current page
@@ -86,14 +86,14 @@ public class PatientAddRegistrationController implements Initializable {
 		Main.stage.show();
 		return true;
 	}
-	
+
 	public static long reverseStringToStamp(String s) {
-		s+=" 23:59:59";
-		long l=0l;
+		s += " 23:59:59";
+		long l = 0l;
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			java.util.Date d = fm.parse(s);
-			l=d.getTime();
+			l = d.getTime();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public class PatientAddRegistrationController implements Initializable {
 	public void addSubmit() {
 		labelError.setText("");
 		labelError.setStyle("-fx-text-fill: red;");
-		
+
 		if (this.departmentComboBox.getValue() == null
 				|| this.departmentComboBox.getValue().toString().trim().equals("")) {
 			labelError.setText("Department name Cannot be empty or spaces");
@@ -119,7 +119,7 @@ public class PatientAddRegistrationController implements Initializable {
 			return;
 		}
 		Date d = new Date(System.currentTimeMillis());
-		if(reverseStringToStamp(reservationDate.getValue().toString())<d.getTime()) {
+		if (reverseStringToStamp(reservationDate.getValue().toString()) < d.getTime()) {
 			labelError.setText("Reservation date Cannot be earlier than current date");
 			return;
 		}

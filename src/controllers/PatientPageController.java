@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.Main;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -58,8 +57,8 @@ public class PatientPageController implements Initializable {
 		PatientLoginController.controller.initScene();
 		PatientLoginController.controller.showScene();
 	}
-	
-	public void switchToViewRegistrationPage(){
+
+	public void switchToViewRegistrationPage() {
 		PatientViewRegistrationController.controller.initScene();
 		PatientViewRegistrationController.controller.showScene();
 	}

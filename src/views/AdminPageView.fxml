@@ -37,7 +37,7 @@
         <Image url="@../../images/page_logout.jpg" />
       </image>
     </ImageView>
-    <Label layoutX="58.0" layoutY="171.0" onMouseClicked="#switchToAddRegistrationPage" text="Manage Patients" />
+    <Label layoutX="58.0" layoutY="171.0" onMouseClicked="#switchToManagePatientPage" text="Manage Patients" />
     <Label layoutX="251.0" layoutY="171.0" onMouseClicked="#switchToManageDoctorPage" text="Manage Doctors" />
     <Label layoutX="435.0" layoutY="171.0" onMouseClicked="#switchToManageRegistrationPage" text="Manage Appointments" />
     <Label layoutX="65.0" layoutY="348.0" onMouseClicked="#switchToManageProfilePage" text="Manage Profile" />
