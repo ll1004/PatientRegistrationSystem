@@ -1,23 +1,30 @@
 package controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import application.Main;
+import controllers.PatientViewRegistrationController.Registration;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.DaoModel;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class DoctorManageRegistrationController extends PatientViewRegistrationController {
-
+public class DoctorManageRegistrationController implements Initializable {
+    // The title of current page
     static final String TITLE = "Doctor Manage Registration";
     static final String FXM_URL = "/views/DoctorManageRegistrationView.fxml";
     static final String CSS_URL = "../application/application.css";
@@ -25,7 +32,7 @@ public class DoctorManageRegistrationController extends PatientViewRegistrationC
     static Scene scene = null;
     // The unique instance of the current controller to implement page switching
     public static DoctorManageRegistrationController controller = null;
-
+    public static final String Cancelled = "Cancelled";
     public static final String Registered = "Registered";
 
     @FXML
@@ -89,7 +96,7 @@ public class DoctorManageRegistrationController extends PatientViewRegistrationC
         return true;
     }
 
-    public void initRegistrationTable(){
+    public void initRegistrationTable() {
         registrationColIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
         registrationColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         registrationColPatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
@@ -101,26 +108,30 @@ public class DoctorManageRegistrationController extends PatientViewRegistrationC
         registrationColReservationDate.setCellValueFactory(new PropertyValueFactory<>("reservationDate"));
     }
 
-//    public void getRegistrationInfo(){
-//        ArrayList<PatientViewRegistrationController.Registration> ls = DaoModel.dao.getCurrentPatientRegistrationList();
-//        ObservableList<Registration> data = FXCollections.observableArrayList(
-//                //new Registration(1, 4, "Patient1", "Male", 27, "Doctor Lee", "DP1", "Registered", date.toString()),
-//                //new Registration(2, 5, "Patient2", "Male", 32, "Doctor Lee", "DP1", "Registered", date.toString())
-//        );
-//        for(PatientViewRegistrationController.Registration i:ls) {
-//            data.add(i);
-//        }
-//        this.registrationTableView.setItems(data);
-//    }
-
-    //finish registration
-
-        public void finishRegistration() {
-            System.out.println("registration finished");
-            deleteRegistration();
+    public void getRegistrationInfo() {
+        ArrayList<DoctorManageRegistrationController.Registration> ls = DaoModel.dao.getAllPatientRegistrationListDoctor();
+        ObservableList<Registration> data = FXCollections.observableArrayList(
+                // new Registration(1, 4, "Patient1", "Male", 27, "Doctor Lee", "DP1",
+                // "Registered", date.toString()),
+                // new Registration(2, 5, "Patient2", "Male", 32, "Doctor Lee", "DP1",
+                // "Registered", date.toString())
+        );
+        for (DoctorManageRegistrationController.Registration i : ls) {
+            data.add(i);
         }
+        this.registrationTableView.setItems(data);
+    }
+    public void finishRegistration(){
+        System.out.println("registration finished");
+
+//        Registration item = registrationTableView.getSelectionModel().getSelectedItem();
+
+//        item.setPatientStatus("Finished");
+
+        deleteRegistration();
+    }
     public void deleteRegistration() {
-        DoctorManageRegistrationController.Registration item = registrationTableView.getSelectionModel().getSelectedItem();
+        Registration item = registrationTableView.getSelectionModel().getSelectedItem();
         if (item == null) {
             return;
         }
@@ -129,41 +140,13 @@ public class DoctorManageRegistrationController extends PatientViewRegistrationC
             getRegistrationInfo();
         }
     }
-//    public void finishRegistration() {
-//        Registration item = registrationTableView.getSelectionModel().getSelectedItem();
-//        if (item == null) {
-//            return;
-//        }
-//
-//        if (item.getStatus().equals(Registered)) {
-//            // Finish registration
-//            boolean success = DaoModel.dao.finishPatientRegistration(item.getId());
-//            if (success) {
-//                getRegistrationInfo();
-//            } else {
-//                // Handle failure, show alert or log message
-//                Alert alert = new Alert(AlertType.ERROR);
-//                alert.setTitle("Error");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Failed to finish registration. Please try again.");
-//                alert.showAndWait();
-//            }
-//        } else {
-//            Alert alert = new Alert(AlertType.INFORMATION);
-//            alert.setTitle("Alert");
-//            alert.setHeaderText(null);
-//            alert.setContentText("This registration can't be finished");
-//            alert.showAndWait();
-//        }
-//    }
-
 
     public void backDoctorPage() {
         DoctorPageController.controller.initScene();
         DoctorPageController.controller.showScene();
     }
 
-    public static class Registration{
+    public static class Registration {
         private final SimpleIntegerProperty index;
         private final SimpleIntegerProperty id;
         private final SimpleStringProperty patientName;
@@ -174,7 +157,8 @@ public class DoctorManageRegistrationController extends PatientViewRegistrationC
         private final SimpleStringProperty status;
         private final SimpleStringProperty reservationDate;
 
-        public Registration(int index,int id,String patientName,String sex,int age,String doctorName,String department,String status,String reservationDate) {
+        public Registration(int index, int id, String patientName, String sex, int age, String doctorName,
+                            String department, String status, String reservationDate) {
             this.index = new SimpleIntegerProperty(index);
             this.id = new SimpleIntegerProperty(id);
             this.patientName = new SimpleStringProperty(patientName);

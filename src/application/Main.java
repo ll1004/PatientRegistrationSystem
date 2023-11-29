@@ -93,6 +93,10 @@ public class Main extends Application {
 			
 			AdminManagePatientController adminManagePatientController = new AdminManagePatientController();
 			AdminManagePatientController.controller = adminManagePatientController;
+
+			AdminManageDoctorController adminManageDoctorController = new AdminManageDoctorController();
+			AdminManageDoctorController.controller = adminManageDoctorController;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -34,8 +34,8 @@
       </image>
     </ImageView>
     <Label layoutX="110.0" layoutY="168.0" text="View Appointment" onMouseClicked="#switchToViewRegistrationPage" />
-    <Label layoutX="373.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToManageRegistrationPage" />
-    <Label layoutX="108.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage"   />
+    <Label layoutX="374.0" layoutY="168.0" text="Manage Appointments" onMouseClicked="#switchToManageRegistrationPage" />
+    <Label layoutX="109.0" layoutY="344.0" text="Manage User Profile" onMouseClicked="#switchToManageProfilePage"   />
 
     <Label layoutX="420.0" layoutY="344.0" text="Logout" onMouseClicked="#logoutDoctorPage"  />
 

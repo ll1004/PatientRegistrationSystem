@@ -17,14 +17,14 @@
         <Image url="@../../images/avatar_default.jpg" />
       </image>
     </ImageView>
-    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="238.0" layoutY="38.0" onMouseClicked="#switchToManageRegistrationPage" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="238.0" layoutY="38.0" onMouseClicked="#switchToManageDoctorPage" pickOnBounds="true" preserveRatio="true">
       <image>
         <Image url="@../../images/avatar_doctor.jpg" />
       </image>
     </ImageView>
     <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="434.0" layoutY="38.0" onMouseClicked="#switchToManageRegistrationPage" pickOnBounds="true" preserveRatio="true">
       <image>
-        <Image url="@../../images/avatar_admin.jpg" />
+        <Image url="@../../images/patient_page_view.jpg" />
       </image>
     </ImageView>
     <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="47.0" layoutY="212.0" onMouseClicked="#switchToManageProfilePage" pickOnBounds="true" preserveRatio="true">
@@ -37,10 +37,10 @@
         <Image url="@../../images/page_logout.jpg" />
       </image>
     </ImageView>
-    <Label layoutX="55.0" layoutY="171.0" onMouseClicked="#switchToAddRegistrationPage" text="Manage Patients" />
-    <Label layoutX="248.0" layoutY="171.0" onMouseClicked="#switchToManageRegistrationPage" text="Manage Doctors" />
-    <Label layoutX="430.0" layoutY="171.0" onMouseClicked="#switchToManageRegistrationPage" text="Manage Appointments" />
-    <Label layoutX="60.0" layoutY="348.0" onMouseClicked="#switchToManageProfilePage" text="Manage Profile" />
+    <Label layoutX="58.0" layoutY="171.0" onMouseClicked="#switchToAddRegistrationPage" text="Manage Patients" />
+    <Label layoutX="251.0" layoutY="171.0" onMouseClicked="#switchToManageDoctorPage" text="Manage Doctors" />
+    <Label layoutX="435.0" layoutY="171.0" onMouseClicked="#switchToManageRegistrationPage" text="Manage Appointments" />
+    <Label layoutX="65.0" layoutY="348.0" onMouseClicked="#switchToManageProfilePage" text="Manage Profile" />
     <Label layoutX="277.0" layoutY="348.0" onMouseClicked="#logoutAdminPage" text="Logout" />
   </children>
 </AnchorPane>

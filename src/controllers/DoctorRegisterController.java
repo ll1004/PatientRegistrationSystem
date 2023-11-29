@@ -21,7 +21,7 @@ package controllers;
         import javafx.scene.control.Alert.AlertType;
         import models.DaoModel;
         import models.DoctorModel;
-        import models.PatientModel;
+
 
 public class DoctorRegisterController implements Initializable {
     // The title of current page

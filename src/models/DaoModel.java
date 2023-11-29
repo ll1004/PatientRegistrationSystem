@@ -11,9 +11,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import controllers.AdminManagePatientController;
-import controllers.AdminManageRegistrationController;
-import controllers.PatientViewRegistrationController;
+import controllers.*;
 
 public class DaoModel {
 	Connection conn = null;
@@ -338,7 +336,61 @@ public class DaoModel {
 		}
 		return ls;
 	}
-	
+	public ArrayList<DoctorManageRegistrationController.Registration> getAllPatientRegistrationListDoctor(){
+		ResultSet rs = null;
+		ArrayList<DoctorManageRegistrationController.Registration> ls = new ArrayList<>();
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve registration from registration table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id";
+			pstmt = conn.prepareStatement(sql);
+			//pstmt.setInt(1, PatientModel.user.getId());
+			rs = pstmt.executeQuery();
+			// PatientModel should be replaced by DoctorModel
+			int counter=0;
+			while (rs.next()) {
+				ls.add(new DoctorManageRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+			}
+
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ls;
+	}
+
+	public ArrayList<DoctorViewRegistrationController.Registration> getAllPatientRegistrationListDoctorView(){
+		ResultSet rs = null;
+		ArrayList<DoctorViewRegistrationController.Registration> ls = new ArrayList<>();
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve registration from registration table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT a.id, b.username AS patientName, b.sex, b.age, c.username AS doctorName, a.department, a.status, a.reservationDate FROM registration_tab a LEFT JOIN patient_tab b ON a.patientId=b.id LEFT JOIN doctor_tab c ON a.doctorId=c.id";
+			pstmt = conn.prepareStatement(sql);
+			//pstmt.setInt(1, PatientModel.user.getId());
+			rs = pstmt.executeQuery();
+			// PatientModel should be replaced by DoctorModel
+			int counter=0;
+			while (rs.next()) {
+				ls.add(new DoctorViewRegistrationController.Registration(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("patientName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("doctorName").toString(),rs.getObject("department").toString(),rs.getObject("status").toString(),rs.getObject("reservationDate").toString()));
+			}
+
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ls;
+	}
 	public ArrayList<AdminManageRegistrationController.Registration> getAllPatientRegistrationList(){
 		ResultSet rs = null;
 		ArrayList<AdminManageRegistrationController.Registration> ls = new ArrayList<>();
@@ -707,6 +759,53 @@ public class DaoModel {
 			return false;
 		}
 	}
+	public boolean deleteDoctor(int id) {
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("Deleting doctor from the table...");
+			String sql = null;
+
+			// Include all object data to the database table
+			sql = "DELETE FROM doctor_tab where id="+id;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			conn.close();
+			return true;
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return false;
+		}
+	}
+
+	public ArrayList<AdminManageDoctorController.Doctor> getAllDoctorListAdmin(){
+		ResultSet rs = null;
+		ArrayList<AdminManageDoctorController.Doctor> ls = new ArrayList<>();
+		try {
+			conn = new DBConnect().connect();
+			// Execute a query
+			System.out.println("retrieve doctor from doctor table...");
+			stmt = conn.createStatement();
+			// String sql = "SELECT * from patient_tab where username='"+ user.getUsername()
+			// +"' and password='"+user.getPassword()+"' order by createTime desc";
+			String sql = "SELECT a.id, a.username AS doctorName, a.sex, a.age, a.phone, a.email, a.city, a.state, a.pincode FROM doctor_tab a";
+			pstmt = conn.prepareStatement(sql);
+			//pstmt.setInt(1, PatientModel.user.getId());
+			rs = pstmt.executeQuery();
+			// PatientModel should be replaced by DoctorModel
+			int counter=0;
+			while (rs.next()) {
+				ls.add(new AdminManageDoctorController.Doctor(++counter,Integer.parseInt(rs.getObject("id").toString()),rs.getObject("doctorName").toString(),rs.getObject("sex").toString(),Integer.parseInt(rs.getObject("age").toString()),rs.getObject("phone").toString(),rs.getObject("email").toString(),rs.getObject("city").toString(),rs.getObject("state").toString(),rs.getObject("pincode").toString()));
+			}
+
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ls;
+	}
+
 
 }
 

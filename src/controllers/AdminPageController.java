@@ -78,4 +78,11 @@ public class AdminPageController implements Initializable {
 		AdminManagePatientController.controller.initScene();
 		AdminManagePatientController.controller.showScene();
 	}
+
+	public void switchToManageDoctorPage(){
+		AdminManageDoctorController.controller.initScene();
+		AdminManageDoctorController.controller.showScene();
+		}
+
+
 }
